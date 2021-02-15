@@ -11,7 +11,7 @@ Imports: dplyr
 Suggests: knitr,
     rmarkdown
 License: GPL (>=3)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)
