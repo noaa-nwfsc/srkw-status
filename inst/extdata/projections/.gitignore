@@ -1,0 +1,4 @@
+*.rds
+*.Rdata
+.DS_Store
+.Rapp.history

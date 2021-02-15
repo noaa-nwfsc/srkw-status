@@ -1,0 +1,9 @@
+model {
+  eta <- X %*% b ## linear predictor
+  for (i in 1:n) { mu[i] <-  ilogit(eta[i]) } ## expected response
+  for (i in 1:n) { y[i] ~ dbin(mu[i],w[i]) } ## response
+  ## Parametric effect priors
+  b[1:6] ~ dmnorm(bmean,bcov)
+  ## prior for s(year)...
+  b[7:15] ~ dmnorm(K1mean,K1cov)
+}

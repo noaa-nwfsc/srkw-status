@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.rds
+.Ruserdata
+.DS_Store
+.Rbuildignore
+project.Rproj
+inst/extdata/status_update_files/.DS_Store

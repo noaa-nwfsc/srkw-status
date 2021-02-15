@@ -1,0 +1,72 @@
+---
+title: "Untitled"
+author: "Eric"
+date: "1/22/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
+  comment = "#>"
+)
+library(kwdemog)
+library(ggplot2)
+library(knitr)
+library(dplyr)
+library(mgcv)
+library(rstanarm)
+library(viridis)
+library(ggridges)
+library(mixedup)
+data(orca)
+year.end = 2021
+refit_models = FALSE
+report_start = year.end-5
+# format whale names just for consistency
+format_names = function(x) {
+  for(i in 1:2) {
+  indx = which(substr(x,2,2) == "0")
+  x[indx] = paste0(substr(x[indx],1,1), substr(x[indx],3,nchar(x[indx])))
+  }
+  return(x)
+}
+orca$animal = format_names(orca$animal)
+orca$pod = format_names(orca$pod)
+orca$matriline = format_names(orca$matriline)
+orca$mom = format_names(orca$mom)
+orca$dad = format_names(orca$dad)
+
+report_dir = "projections/"
+```
+
+
+```{r}
+data(orca)
+whaleData = kwdemog::expand(orca)
+whaleData = whaleData[whaleData$birth > 1970,]
+
+# A handful of unknown sexes need to be randomly filled in
+whaleData$sexF1M2[which(whaleData$sexF1M2==0)] = sample(c(1,2), size=length(which(whaleData$sexF1M2==0)), replace=T)
+
+whales_since76 = as.character(orca$animal[orca$birth > 1970])
+
+sub = whaleData[which(whaleData$animal%in%whales_since76 & whaleData$population=="SRKW" & !is.na(whaleData$gave_birth) & whaleData$sexF1M2=="1" & whaleData$age>=10 & whaleData$age< 43), ]
+sub$animal = as.factor(sub$animal)
+
+
+# filter out females alive in current year
+currently_alive = dplyr::filter(sub, year == year.end, is.na(death))
+knitr::kable(currently_alive)
+# find last birth for each of these
+last_birth = group_by(dplyr::filter(sub, gave_birth==1), animal) %>% 
+  dplyr::summarise(last_birth = max(year[which(gave_birth==1)]))
+last_birth$last_birth[!is.finite(last_birth$last_birth)] = NA
+
+currently_alive = dplyr::left_join(currently_alive, last_birth) %>% 
+  dplyr::mutate(unlikely_future_mom="") %>%
+  dplyr::select(animal,age,last_birth,unlikely_future_mom) %>% data.frame()
+
+
+```

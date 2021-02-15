@@ -1,0 +1,3 @@
+load("/Users/eric.ward/Documents/Github projects/srkw-status/inst/extdata/projections/projections_best_age-year.Rdata")
+ls()
+all_nrkw

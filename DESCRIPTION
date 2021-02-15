@@ -1,0 +1,17 @@
+Package: kwdemog
+Type: Package
+Title: Package for processing killer whale demographic data
+Version: 0.01.0
+Date: 2018-03-20
+Authors@R: c(
+    person(c("Eric", "J."), "Ward", email = "eric.ward@noaa.gov", 
+      role = c("aut", "cre")))
+Description: Expands killer whale demographic data from rows (observations) being animals to rows being animal-year combinations.
+Imports: dplyr
+Suggests: knitr,
+    rmarkdown
+License: GPL (>=3)
+RoxygenNote: 6.1.1
+VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)

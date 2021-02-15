@@ -1,0 +1,18 @@
+model {
+  eta <- X %*% b ## linear predictor
+  for (i in 1:n) { mu[i] <-  ilogit(eta[i]) } ## expected response
+  for (i in 1:n) { y[i] ~ dbin(mu[i],w[i]) } ## response 
+  ## Parametric effect priors CHECK tau=1/7.1^2 is appropriate!
+  for (i in 1:1) { b[i] ~ dnorm(0,0.02) }
+  ## prior for s(year)... 
+  K1 <- S1[1:9,1:9] * lambda[1]  + S1[1:9,10:18] * lambda[2]
+  b[2:10] ~ dmnorm(zero[2:10],K1) 
+  ## prior for s(age)... 
+  K2 <- S2[1:2,1:2] * lambda[3]  + S2[1:2,3:4] * lambda[4]
+  b[11:12] ~ dmnorm(zero[11:12],K2) 
+  ## smoothing parameter priors CHECK...
+  for (i in 1:4) {
+    lambda[i] ~ dgamma(.05,.005)
+    rho[i] <- log(lambda[i])
+  }
+}
