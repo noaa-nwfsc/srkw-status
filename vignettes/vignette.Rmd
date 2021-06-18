@@ -1,25 +1,21 @@
 ---
-title: "Untitled"
-author: "Eric"
-date: "1/22/2021"
+title: "Examples of using kwdemog data and functions"
+author: "Eric J. Ward"
+date: "`r Sys.Date()`"
 output:
   pdf_document: default
-  html_document: default
+  rmarkdown::html_vignette: default
+vignette: |
+  %\VignetteIndexEntry{Examples of using kwdemog data and functions} %\VignetteEngine{knitr::rmarkdown} \usepackage[utf8]{inputenc}
 ---
 
+
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE,
   comment = "#>"
 )
 library(kwdemog)
-library(ggplot2)
-library(knitr)
 library(dplyr)
-library(mgcv)
-library(rstanarm)
-library(viridis)
-library(ggridges)
-library(mixedup)
 data(orca)
 year.end = 2021
 refit_models = FALSE
@@ -41,10 +37,20 @@ orca$dad = format_names(orca$dad)
 report_dir = "projections/"
 ```
 
-
+The SRKW orca data is included as a dataframe. Each row is an individual, with birth and death information.  
 ```{r}
 data(orca)
+head(orca)
+```
+
+But for modeling, it's more useful to work with an expanded version, where every animal-year combination gets its own row.  The expand() function does this step, 
+
+```{r}
 whaleData = kwdemog::expand(orca)
+```
+
+Then we can do all kinds of filtering for various analyses -- e.g. 
+```{r}
 whaleData = whaleData[whaleData$birth > 1970,]
 
 # A handful of unknown sexes need to be randomly filled in
@@ -68,5 +74,5 @@ currently_alive = dplyr::left_join(currently_alive, last_birth) %>%
   dplyr::mutate(unlikely_future_mom="") %>%
   dplyr::select(animal,age,last_birth,unlikely_future_mom) %>% data.frame()
 
-
 ```
+
