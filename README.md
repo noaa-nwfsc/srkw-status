@@ -1,5 +1,5 @@
 # srkw-status
-This is a repository for archiving code and data related to projecting Southern Resident killer whale population status. The data are included as an .rda file in the /data folder. In addition to using this framework for population projections this has been used extensively for the Pacific Fishery Management Council Working Group to understand the effects of ocean salmon fisheries on killer whales. 
+This is a repository (pkgdown site here: https://nwfsc-cb.github.io/srkw-status/) for archiving code and data related to projecting Southern Resident killer whale population status. The data are included as an .rda file in the /data folder. In addition to using this framework for population projections this has been used extensively for the Pacific Fishery Management Council Working Group to understand the effects of ocean salmon fisheries on killer whales. 
 
 Risk Assessment https://www.pcouncil.org/documents/2020/02/e-3-a-srkw-workgroup-report-1-electronic-only.pdf/
 
