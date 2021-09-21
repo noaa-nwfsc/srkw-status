@@ -76,3 +76,16 @@ currently_alive = dplyr::left_join(currently_alive, last_birth) %>%
 
 ```
 
+### Notes on demographic modeling 
+
+As a cautionary note, there may be interest in using these data to test correlations with prey (salmon) indices or other environmental drivers. There are several very nuanced and important things to note about different subsets of these data. 
+
+First, ages on animals in the beginning of the surveys were often 'guessed', and in the cases of females, assigned an age of 40 based on the last observed birth. This procedure will generate bias (many of the animals being < 40 during their last birth), so these animals have been excluded from fecundity-at-age analyses, or only used in stage-based survival estimates. The `includeSurv` and `includeFec` columns are used to designate most of these cases (1 = include, 0 = exclude).
+
+Second, a handful of deaths are either tied to human disturbance (direct or indirectly associated with ship strikes) or are not independent. Calves that died at the same time as their moms are not independent (J24, J54, K39, L97, L104). Other animals are associated with vessel strikes (L98), satellite tag infections (L95) or unknown trauma (L112). For the latter three animals, it is possible to include the years they survive as data, and replace the death data with an NA. For example:
+
+```{r}
+whaleData[which(whaleData$animal %in% c("L095","L098","L112") & whaleData$alive==0),] = NA
+```
+
+
