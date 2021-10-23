@@ -69,13 +69,13 @@
 
       
 
-      </header><script src="vignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="vignette_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Examples of using kwdemog data and functions</h1>
                         <h4 class="author">Eric J. Ward</h4>
             
-            <h4 class="date">2021-06-18</h4>
+            <h4 class="date">2021-10-23</h4>
       
       
       <div class="hidden name"><code>vignette.Rmd</code></div>
@@ -610,6 +610,15 @@
 <span class="va">currently_alive</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">currently_alive</span>, <span class="va">last_birth</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>unlikely_future_mom<span class="op">=</span><span class="st">""</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">animal</span>,<span class="va">age</span>,<span class="va">last_birth</span>,<span class="va">unlikely_future_mom</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div id="notes-on-demographic-modeling" class="section level3">
+<h3 class="hasAnchor">
+<a href="#notes-on-demographic-modeling" class="anchor"></a>Notes on demographic modeling</h3>
+<p>As a cautionary note, there may be interest in using these data to test correlations with prey (salmon) indices or other environmental drivers. There are several very nuanced and important things to note about different subsets of these data.</p>
+<p>First, ages on animals in the beginning of the surveys were often ‘guessed’, and in the cases of females, assigned an age of 40 based on the last observed birth. This procedure will generate bias (many of the animals being &lt; 40 during their last birth), so these animals have been excluded from fecundity-at-age analyses, or only used in stage-based survival estimates. The <code>includeSurv</code> and <code>includeFec</code> columns are used to designate most of these cases (1 = include, 0 = exclude).</p>
+<p>Second, a handful of deaths are either tied to human disturbance (direct or indirectly associated with ship strikes) or are not independent. Calves that died at the same time as their moms are not independent (J24, J54, K39, L97, L104). Other animals are associated with vessel strikes (L98), satellite tag infections (L95) or unknown trauma (L112). For the latter three animals, it is possible to include the years they survive as data, and replace the death data with an NA. For example:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">whaleData</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">animal</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"L095"</span>,<span class="st">"L098"</span>,<span class="st">"L112"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">alive</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span>,<span class="op">]</span> <span class="op">=</span> <span class="cn">NA</span></code></pre></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
