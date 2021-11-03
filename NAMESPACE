@@ -3,4 +3,5 @@
 export(expand)
 export(writedata)
 import(dplyr)
+importFrom(usethis,use_data)
 importFrom(utils,read.csv)

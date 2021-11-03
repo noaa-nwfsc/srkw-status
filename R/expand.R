@@ -31,7 +31,7 @@ expand <- function(filename, start_year = 1976, current_year = NULL,
   alldat = expand.grid("year" = start_year:current_year,
     "animal" = unique(orca$animal), stringsAsFactors = FALSE)
 
-  alldat = dplyr::left_join(alldat, orca)
+  alldat = left_join(alldat, orca)
   alldat$age = alldat$year - alldat$birth
   alldat$age[which(alldat$age < 0)] = NA
   alldat$age[which(alldat$age > alldat$death)] = NA

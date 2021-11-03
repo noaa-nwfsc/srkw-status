@@ -1,0 +1,147 @@
+---
+title: "Changing demographic rates"
+author: "Eric J. Ward"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Changing demographic rates}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
+  comment = "#>"
+)
+library(kwdemog)
+library(dplyr)
+library(mgcv)
+library(ggplot2)
+data(orca)
+year.end = as.numeric(substr(Sys.Date(),1,4))
+refit_models = FALSE
+report_start = year.end-5
+# format whale names just for consistency
+format_names = function(x) {
+  for(i in 1:2) {
+  indx = which(substr(x,2,2) == "0")
+  x[indx] = paste0(substr(x[indx],1,1), substr(x[indx],3,nchar(x[indx])))
+  }
+  return(x)
+}
+
+expanded = expand(orca)
+
+expanded$animal = format_names(expanded$animal)
+expanded$pod = format_names(expanded$pod)
+expanded$matriline = format_names(expanded$matriline)
+expanded$mom = format_names(expanded$mom)
+expanded$dad = format_names(expanded$dad)
+
+#report_dir = "projections/"
+whaleData = expanded
+
+```
+
+### Approach  
+
+We can calculate trends in demographic rates (survival, fecundity) for this dataset, using a framework similar to that described in the PFMC Working Group reports.
+
+### Survival
+
+```{r}
+whaleData[which(whaleData$animal %in% c("L095","L098","L112") & whaleData$alive==0),] = NA
+
+# filter out animals born > 1960
+whaleData = dplyr::filter(whaleData, birth > 1960)
+# fill in missing sexes randomly
+set.seed(123)
+whaleData$sexF1M2[which(whaleData$sexF1M2==0)] = sample(1:2, size=length(which(whaleData$sexF1M2==0)), replace=T)
+
+fit <- gam(alive ~ s(year) + age+I(age^2)+sexF1M2,data=dplyr::filter(whaleData,includeSurv==1),
+           family="binomial")
+
+newdat = expand.grid(year =1976:max(whaleData$year),
+                     sexF1M2=c(1,2),
+                     age=20)
+newdat$Sex = c("Female","Male")[newdat$sexF1M2]
+newdat$pred = predict(fit, newdat,type="link")
+newdat$pred_se = predict(fit, newdat, se.fit=TRUE,type="link")$se.fit
+
+newdat$survival = plogis(newdat$pred)
+newdat$lo = plogis(newdat$pred-1.96*newdat$pred_se)
+newdat$hi = plogis(newdat$pred+1.96*newdat$pred_se)
+
+newdat = dplyr::select(newdat, -pred, -pred_se)
+```
+
+Figure 1. Estimated survival rates for 20-year old males and females in the SRKW population. Ribbons represent 95% CIs. 
+
+```{r}
+ggplot(newdat, aes(year,survival,col=age,fill=age)) + 
+  geom_ribbon(aes(ymin=lo,ymax=hi),alpha=0.3,col=NA) + 
+  geom_line() +
+  scale_color_viridis_c(end=0.8) + 
+  scale_fill_viridis_c(end=0.8) + 
+  facet_wrap(~Sex,nrow=2,scale="free_y")+
+  theme_bw() + 
+  xlab("Year") + ylab("Fecundity") + 
+  theme(legend.position = "none") + 
+  theme(strip.background =element_rect(fill="white"))
+```
+
+### Fecundity
+
+```{r}
+whaleData = dplyr::filter(whaleData, sexF1M2==1, 
+                          includeFec==1, 
+                          age >= 10,
+                          age<=43)
+
+fit <- gam(gave_birth ~ s(year) + age+I(age^2),data=whaleData,
+           family="binomial")
+
+newdat_f = expand.grid(year =1976:max(whaleData$year),
+                     age=20)
+newdat_f$pred = predict(fit, newdat_f,type="link")
+newdat_f$pred_se = predict(fit, newdat_f, se.fit=TRUE,type="link")$se.fit
+
+newdat_f $fecundity = plogis(newdat_f$pred)
+newdat_f $lo = plogis(newdat_f$pred-1.96*newdat_f$pred_se)
+newdat_f $hi = plogis(newdat_f$pred+1.96*newdat_f$pred_se)
+
+newdat_f = dplyr::select(newdat_f, -pred, -pred_se)
+```
+
+
+Figure 2. Estimated fecundity rates for 20-year females in the SRKW population. Ribbons represent 95% CIs. 
+```{r}
+ggplot(newdat_f, aes(year,fecundity,col=age,fill=age)) + 
+  geom_ribbon(aes(ymin=lo,ymax=hi),alpha=0.3,col=NA) + 
+  geom_line() +
+  scale_color_viridis_c(end=0.8) + 
+  scale_fill_viridis_c(end=0.8) + 
+  theme_bw() + 
+  xlab("Year") + ylab("Fecundity") + 
+  theme(legend.position = "none") + 
+  theme(strip.background =element_rect(fill="white"))
+```
+
+Table 1. Estimated time-varying survival rates for 20-year old female and male killer whales from the SRKW population. The 'lo' and 'hi' values represent 95% confidence intervals.  
+
+```{r}
+newdat$survival = round(newdat$survival,3)
+newdat$lo = round(newdat$lo,3)
+newdat$hi = round(newdat$hi,3)
+knitr::kable(newdat,digits = 3)
+```
+
+Table 2. Estimated time-varying fecundity rates for 20-year old female killer whales from the SRKW population. The 'lo' and 'hi' values represent 95% confidence intervals.  
+
+```{r}
+newdat_f$fecundity = round(newdat_f$fecundity,3)
+newdat_f$lo = round(newdat_f$lo,3)
+newdat_f$hi = round(newdat_f$hi,3)
+knitr::kable(newdat_f,digits = 3)
+```

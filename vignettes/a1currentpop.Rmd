@@ -1,0 +1,75 @@
+---
+title: "Current SRKW Population"
+author: "Eric J. Ward"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Current SRKW Population}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
+  comment = "#>"
+)
+library(kwdemog)
+library(dplyr)
+data(orca)
+year.end = as.numeric(substr(Sys.Date(),1,4))
+refit_models = FALSE
+report_start = year.end-5
+# format whale names just for consistency
+format_names = function(x) {
+  for(i in 1:2) {
+  indx = which(substr(x,2,2) == "0")
+  x[indx] = paste0(substr(x[indx],1,1), substr(x[indx],3,nchar(x[indx])))
+  }
+  return(x)
+}
+
+expanded = expand(orca)
+
+expanded$animal = format_names(expanded$animal)
+expanded$pod = format_names(expanded$pod)
+expanded$matriline = format_names(expanded$matriline)
+expanded$mom = format_names(expanded$mom)
+expanded$dad = format_names(expanded$dad)
+
+#report_dir = "projections/"
+
+current_pop = dplyr::filter(expanded, year==year.end,
+                            alive==1,
+                            population=="SRKW") %>% 
+  dplyr::select(animal,birth,age,pod,mom,sexF1M2)
+
+# bring in stages
+stages = read.csv("../inst/extdata/ages2stages.csv")
+current_pop = dplyr::left_join(current_pop,stages)
+current_pop$stage[which(is.na(current_pop$stage))] = "calf"
+current_pop$stage[which(current_pop$stage=="young_female")] = "young female"
+current_pop$stage[which(current_pop$stage=="young_male")] = "young male"
+current_pop$stage[which(current_pop$stage=="old_female")] = "old female"
+current_pop$stage[which(current_pop$stage=="old_male")] = "old male"
+
+current_pop$sex = "Unk"
+current_pop$sex[which(current_pop$sexF1M2==1)]="F"
+current_pop$sex[which(current_pop$sexF1M2==2)]="M"
+
+current_pop = dplyr::select(current_pop, -sexF1M2)
+
+```
+
+The table of all individuals is below, but we can also do a coarse summary by category,
+
+```{r}
+knitr::kable(table(current_pop$stage),col.names=c("Stage","Freq"))
+```
+
+
+
+```{r}
+knitr::kable(current_pop)
+```
+
