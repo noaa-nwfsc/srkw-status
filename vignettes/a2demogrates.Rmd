@@ -97,7 +97,9 @@ ggplot(newdat, aes(year,survival,col=age,fill=age)) +
 whaleData = dplyr::filter(whaleData, sexF1M2==1, 
                           includeFec==1, 
                           age >= 10,
-                          age<=43)
+                          age<=43,
+                          alive == 1,
+                          !is.na(gave_birth))
 
 fit <- gam(gave_birth ~ s(year) + age+I(age^2),data=whaleData,
            family="binomial")
