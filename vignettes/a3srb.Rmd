@@ -1,0 +1,87 @@
+---
+title: "Sex ratio at birth"
+author: "Eric J. Ward"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sex ratio at birth}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
+  comment = "#>"
+)
+library(kwdemog)
+library(dplyr)
+library(mgcv)
+library(ggplot2)
+library(rstanarm)
+data(orca)
+year.end = as.numeric(substr(Sys.Date(),1,4))
+refit_models = FALSE
+report_start = year.end-5
+# format whale names just for consistency
+format_names = function(x) {
+  for(i in 1:2) {
+  indx = which(substr(x,2,2) == "0")
+  x[indx] = paste0(substr(x[indx],1,1), substr(x[indx],3,nchar(x[indx])))
+  }
+  return(x)
+}
+
+expanded = expand(orca)
+
+expanded$animal = format_names(expanded$animal)
+expanded$pod = format_names(expanded$pod)
+expanded$matriline = format_names(expanded$matriline)
+expanded$mom = format_names(expanded$mom)
+expanded$dad = format_names(expanded$dad)
+
+#report_dir = "projections/"
+whaleData = expanded
+
+```
+
+# Sex ratio at birth
+
+During the 2011-2012 bilateral workshops (Hilborn et al. 2012; Ward et al. 2013), a comparison between NRKW and SRKW sex ratios at birth was presented, with calves being approximately 55\% female in the NRKW population and 45\% female in the SRKW population. This difference was assumed to be due to chance, and there was no evidence for a significant trend. As the proportion of males in the SRKW population has increased over time, it is worth re-examining the evidence supporting any trend. 
+  
+```{r, echo=FALSE, warning=FALSE,message=FALSE}
+sexr = dplyr::filter(orca, birth >= (year.end-3)) %>% 
+  dplyr::summarize(males = length(which(sexF1M2 == 2)), 
+    females = length(which(sexF1M2==1)))
+```
+
+```{r stansexratio, echo=FALSE, warning=FALSE,message=FALSE, results='hide'}
+  # do a simple bayesian logistic regression 
+  indx = which(orca$sexF1M2 != 0 & orca$birth >= 1976 & orca$birth <= year.end)
+  Y = orca$sexF1M2[indx] - 1
+  Xt = orca$birth[indx]
+  
+  df = data.frame("year"=Xt,"sex"=Y)
+  g1 = ggplot(df, aes(year, sex)) + geom_hline(aes(yintercept=0.5),col="red",alpha=0.3) + geom_point(col="blue",alpha=0.3, position=position_dodge(width = 1)) + geom_smooth(method = "glm", method.args = list(family = "binomial")) + xlab("Year") + ylab("Sex (0 = F, 1 = M)") + theme_bw()
+  
+  # do a quick stepwise model selection using AIC
+  #g.null = glm(Y ~ 1, family = "binomial")
+  g.t = stan_glm(Y ~ Xt, family = "binomial")
+  draws = as.matrix(g.t)
+  ppos = 100 * round(length(which(draws[,2] > 0)) / nrow(draws), 3)
+  
+  df = data.frame("x" = draws[,2])
+  g2 = ggplot(data=df, aes(x=x)) + 
+    geom_histogram(fill = "dodgerblue",alpha=0.6) + 
+    xlab("Annual trend in male births") + ylab("Frequency") + 
+    geom_vline(aes(xintercept=0), col="grey30") + 
+    geom_vline(aes(xintercept=quantile(df$x,0.025)), col="red",alpha=0.3) + 
+    geom_vline(aes(xintercept=quantile(df$x,0.975)), col="red",alpha=0.3) + 
+    theme_bw()
+```
+
+To evaluate support for a trend, we fit Bayesian logistic regression models (GLMs with a binomial family and logit link function), to SRKW birth data over the period 1977-present. In recent years, since `r year.end-3`, there have been `r sexr$males` male births and `r sexr$females` female births. This analysis highlights that the probability of a positive trend is approximately `r ppos`\% (Fig. \ref{fig:srb}).
+
+```{r, fig.cap="Trends in sex ratio at births for Southern Resident killer whales. Shown are all births (with GLM best fit) and the posterior distribution of the coefficient for the year term (trend). Positive values of the coefficient would support an increasing trend through time. The red line on the top panel represents the 50:50 sex ratio, and red lines on the histogram represent the 95% CIs. \\label{fig:srb}"}
+gridExtra::grid.arrange(g1, g2, ncol=1)
+```

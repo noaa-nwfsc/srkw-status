@@ -86,7 +86,7 @@ ggplot(newdat, aes(year,survival,col=age,fill=age)) +
   scale_fill_viridis_c(end=0.8) + 
   facet_wrap(~Sex,nrow=2,scale="free_y")+
   theme_bw() + 
-  xlab("Year") + ylab("Fecundity") + 
+  xlab("Year") + ylab("Survival") + 
   theme(legend.position = "none") + 
   theme(strip.background =element_rect(fill="white"))
 ```

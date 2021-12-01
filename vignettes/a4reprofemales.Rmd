@@ -1,0 +1,89 @@
+---
+title: "Time series of reproductive females"
+author: "Eric J. Ward"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Time series of reproductive females}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
+  comment = "#>"
+)
+library(kwdemog)
+library(dplyr)
+library(mgcv)
+library(ggplot2)
+library(rstanarm)
+library(ggridges)
+library(viridis)
+
+data(orca)
+year.end = as.numeric(substr(Sys.Date(),1,4))
+refit_models = FALSE
+report_start = year.end-5
+# format whale names just for consistency
+format_names = function(x) {
+  for(i in 1:2) {
+  indx = which(substr(x,2,2) == "0")
+  x[indx] = paste0(substr(x[indx],1,1), substr(x[indx],3,nchar(x[indx])))
+  }
+  return(x)
+}
+
+expanded = expand(orca)
+
+expanded$animal = format_names(expanded$animal)
+expanded$pod = format_names(expanded$pod)
+expanded$matriline = format_names(expanded$matriline)
+expanded$mom = format_names(expanded$mom)
+expanded$dad = format_names(expanded$dad)
+
+#report_dir = "projections/"
+whaleData = expanded
+
+```
+
+### Reproductive females
+
+The number of reproductive aged females was at its lowest point in the late 1970s, in part because of the prior harvesting that occurred into the early 1970s (Fig. \ref{fig:ts-repro-females}). Though the overall number of reproductive females has been fluctuating between 25-35 for most of the last 40 years, there have been contrasting changes by pod, with declines in L pod females and increases in J pod (Fig. \ref{fig:ts-repro-females}). At the start of the survey in 1976, the distribution of females was skewed toward younger ages with few older, post-reproductive females. The distribution in recent years is more uniform across female ages (in other words, more females in their 30s, Fig. \ref{fig:plot-repro-females}). 
+
+```{r reprofemales, fig.cap="Distribution of ages of reproductive age females (10-42, inclusive) for Southern Residents by year since 1976. \\label{fig:plot-repro-females}"}
+# summarize repro females by year
+repro = dplyr::filter(whaleData, pod %in% c("J1","K1","L1"), alive == 1, sexF1M2==1, age >=10, age<=42)
+repro$pod[which(repro$pod=="J1")]="J"
+repro$pod[which(repro$pod=="K1")]="K"
+repro$pod[which(repro$pod=="L1")]="L"
+repro$year = as.factor(repro$year)
+
+ggplot(repro, aes(x = `age`, y = `year`, fill = ..x..)) +
+  geom_density_ridges_gradient(scale = 1, rel_min_height = 0.01) +
+  scale_fill_viridis(name = "Female age", option = "C") +
+  labs(title = 'Ages of reproductive - aged female SRKW') + xlab("Age") + ylab("Year") +
+  theme(axis.text.y = element_text(angle = 0, hjust = 1)) + 
+  scale_y_discrete(breaks=c("1980","1985","1990","1995","2000","2005","2010","2015","2020"),
+        labels=c("1980","1985","1990","1995","2000","2005","2010","2015","2020")) + 
+  coord_flip() + 
+  theme_bw()
+
+```
+
+```{r reprots, fig.cap="Time series of reproductive age females (10-42, inclusive) for Southern Residents by year since 1976. \\label{fig:ts-repro-females}"}
+g1 = group_by(repro, year) %>% summarize(m = length(unique(animal)),SRKW="Total") %>% 
+  ggplot(aes(year, m, group=SRKW,color=SRKW)) + geom_line(col="black") + geom_point() + 
+  xlab("Year") + ylab("Reproductive aged females") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  theme_bw()
+g2 = group_by(repro, year, pod) %>% summarize(m = length(unique(animal))) %>% 
+  ggplot(aes(year, m, group=pod, color=pod)) + geom_line() + geom_point() + 
+  xlab("Year") + ylab("Reproductive aged females") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + theme_bw() + 
+  scale_color_viridis(discrete = TRUE, end = 0.8) + 
+  scale_fill_viridis(discrete = TRUE, end = 0.8)
+gridExtra::grid.arrange(g1, g2, ncol = 1)
+
+```
