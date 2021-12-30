@@ -6,6 +6,10 @@ This is a repository (pkgdown site here: https://nwfsc-cb.github.io/srkw-status/
 
 [2020 PFMC Range of alternatives and recommendations](https://www.pcouncil.org/documents/2020/10/f-2-a-srkw-workgroup-report-1-pacific-fishery-management-council-salmon-fishery-management-plan-impacts-to-southern-resident-killer-whales-draft-range-of-alternatives-and-recommendations-with-strik.pdf/) 
 
+### DOI
+
+The DOI for this repository is [![DOI](https://zenodo.org/badge/339098194.svg)](https://zenodo.org/badge/latestdoi/339098194)
+
 ### Additional reading
 
 Additional details can be found in the following documents:
