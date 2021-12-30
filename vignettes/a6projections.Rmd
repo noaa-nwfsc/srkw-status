@@ -1,0 +1,85 @@
+---
+title: "Future population projections"
+author: "Eric J. Ward"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Future population projections}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
+  comment = "#>"
+)
+library(kwdemog)
+library(dplyr)
+library(ggplot2)
+
+data(orca)
+year.end = as.numeric(substr(Sys.Date(),1,4))
+refit_models = FALSE
+report_start = year.end-5
+# format whale names just for consistency
+format_names = function(x) {
+  for(i in 1:2) {
+  indx = which(substr(x,2,2) == "0")
+  x[indx] = paste0(substr(x[indx],1,1), substr(x[indx],3,nchar(x[indx])))
+  }
+  return(x)
+}
+data(ages2stages)
+expanded = expand(orca,ages2stages=ages2stages)
+
+expanded$animal = format_names(expanded$animal)
+expanded$pod = format_names(expanded$pod)
+expanded$matriline = format_names(expanded$matriline)
+expanded$mom = format_names(expanded$mom)
+expanded$dad = format_names(expanded$dad)
+
+```
+
+We can use stochastic individual based models to project the SRKW population into the future. This is done across several scenarios where demographic rates are assumed to be (1) drawn across all years, (2) drawn from the last 5 years, and (3) drawn from the late 1980s, when survival and fecundity rates were relatively high. Note: these projections don't include parametric uncertainty for birth rates and death rates. 1000 iterations are run for each scenario.
+
+```{r}
+rebuild = FALSE
+if(rebuild==TRUE) {
+  scenario = c("1976:2021","2017:2021","1985:1989")
+  projections = project(whale_data = expanded, seed=123,n_years = 30,
+          scenarios = scenario,
+          n_iter=1000, verbose = FALSE)
+  # length(projections[[3]])
+  for(i in 1:length(projections[[3]])) {
+    df = data.frame(Scenario = scenario[i],
+                    "mean"=apply(projections[[3]][[i]],2,mean),
+                    "low" = apply(projections[[3]][[i]],2,quantile,0.025),
+                    "hi" = apply(projections[[3]][[i]],2,quantile,0.975))
+    df$year = seq(1,nrow(df))
+    if(i==1) {
+      all_df = df
+    } else {
+      all_df = rbind(all_df, df)
+    }
+    
+  }
+  projections = all_df
+  usethis::use_data(projections, overwrite = TRUE)
+}
+```
+
+Figure 1. Distribution of projected SRKW population sizes, under several scenarios. Solid lines represent the mean across 1000 iterations, and ribbons represent the 95% intervals.  
+
+```{r}
+data(projections)
+ggplot(projections, aes(year, mean,col=Scenario,fill=Scenario)) + 
+  geom_ribbon(aes(ymin=low,ymax=hi),alpha=0.2,col = NA) + 
+  geom_line() + 
+  theme_bw() + 
+  scale_color_viridis_d(end=0.8) + 
+  scale_fill_viridis_d(end=0.8) + 
+  xlab("Years in the future") + 
+  ylab("SRKW population size")
+```
+

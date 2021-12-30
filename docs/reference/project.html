@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • kwdemog</title>
+<title>Function to project SRKW population in the future using individual based models — project • kwdemog</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Function to project SRKW population in the future using individual based models — project" />
+<meta property="og:description" content="Function to project SRKW population in the future using individual based models" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -130,72 +131,73 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Function to project SRKW population in the future using individual based models</h1>
+    
+    <div class="hidden name"><code>project.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Function to project SRKW population in the future using individual based models</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>project</span><span class='op'>(</span>
+  <span class='va'>whale_data</span>,
+  seed <span class='op'>=</span> <span class='fl'>123</span>,
+  n_years <span class='op'>=</span> <span class='fl'>30</span>,
+  scenarios <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1981:2020"</span><span class='op'>)</span>,
+  n_iter <span class='op'>=</span> <span class='fl'>200</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  p_female <span class='op'>=</span> <span class='cn'>NA</span>,
+  sd_female <span class='op'>=</span> <span class='cn'>NA</span>
+<span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="ages2stages.html">ages2stages</a></code> </p>
-        </td>
-        <td><p>A data frame mapping Southern Resident killer whales ages and sexes to life stages</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="expand.html">expand()</a></code> </p>
-        </td>
-        <td><p>Function expand expands a data frame from animals as observations to animal-years as obserations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="orca.html">orca</a></code> </p>
-        </td>
-        <td><p>Example census for Southern Resident killer whales</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="project.html">project()</a></code> </p>
-        </td>
-        <td><p>Function to project SRKW population in the future using individual based models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="projections.html">projections</a></code> </p>
-        </td>
-        <td><p>A data frame containing future SRKW population projections</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="writedata.html">writedata()</a></code> </p>
-        </td>
-        <td><p>Function takes csv file and converts is to saved object</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>whale_data</th>
+      <td><p>the expanded data frame, returned by <code><a href='expand.html'>expand()</a></code></p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>the random seed used to initialize simulations, defaults to <code>123</code></p></td>
+    </tr>
+    <tr>
+      <th>n_years</th>
+      <td><p>the length of the time series projections, defaults to 30 time steps</p></td>
+    </tr>
+    <tr>
+      <th>scenarios</th>
+      <td><p>a character string, or vector of strings describing which scenario
+to be run. Should be entered as a range of years separated by a colon,
+e.g. "1981:1985" to use rates from 1981 to 1985 or ("1981:1985","1981:2021")</p></td>
+    </tr>
+    <tr>
+      <th>n_iter</th>
+      <td><p>the number of iterations per scenario, defaults to 200</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>whether to print status updates to screen, defaults to FALSE</p></td>
+    </tr>
+    <tr>
+      <th>p_female</th>
+      <td><p>The probability of a female birth, defaults to the empirical value since 1980</p></td>
+    </tr>
+    <tr>
+      <th>n_births</th>
+      <td><p>Used for uncertainty in the sex ratio at birth. The distribution of female births is
+assumed to be beta binomial, with shape parameters <code>(n_births+1)*p_female</code> and <code>(n_births+1)*(1-p_female)</code>.
+There have been approximately 100 births since 1980, and this defaults to the empirical number
+of births
+formula above</p></td>
+    </tr>
     </table>
-  </div>
 
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

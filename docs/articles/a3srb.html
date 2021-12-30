@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">kwdemog</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.02.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/a0vignette.html">Examples of using kwdemog data and functions</a>
+      <a href="../articles/a0vignette.html">Examples of using data and functions</a>
     </li>
     <li>
       <a href="../articles/a1currentpop.html">Current SRKW Population</a>
@@ -67,6 +67,12 @@
     </li>
     <li>
       <a href="../articles/a4reprofemales.html">Time series of reproductive females</a>
+    </li>
+    <li>
+      <a href="../articles/a5densitydependence.html">Density dependence in killer whales</a>
+    </li>
+    <li>
+      <a href="../articles/a6projections.html">Future population projections</a>
     </li>
   </ul>
 </li>
@@ -87,7 +93,7 @@
       <h1 data-toc-skip>Sex ratio at birth</h1>
                         <h4 class="author">Eric J. Ward</h4>
             
-            <h4 class="date">2021-12-01</h4>
+            <h4 class="date">2021-12-30</h4>
       
       
       <div class="hidden name"><code>a3srb.Rmd</code></div>
@@ -100,7 +106,7 @@
 <h1 class="hasAnchor">
 <a href="#sex-ratio-at-birth" class="anchor"></a>Sex ratio at birth</h1>
 <p>During the 2011-2012 bilateral workshops (Hilborn et al. 2012; Ward et al. 2013), a comparison between NRKW and SRKW sex ratios at birth was presented, with calves being approximately 55% female in the NRKW population and 45% female in the SRKW population. This difference was assumed to be due to chance, and there was no evidence for a significant trend. As the proportion of males in the SRKW population has increased over time, it is worth re-examining the evidence supporting any trend.</p>
-<p>To evaluate support for a trend, we fit Bayesian logistic regression models (GLMs with a binomial family and logit link function), to SRKW birth data over the period 1977-present. In recent years, since 2018, there have been 1 male births and 2 female births. This analysis highlights that the probability of a positive trend is approximately 79.9% (Fig. ).</p>
+<p>To evaluate support for a trend, we fit Bayesian logistic regression models (GLMs with a binomial family and logit link function), to SRKW birth data over the period 1977-present. In recent years, since 2018, there have been 1 male births and 2 female births. This analysis highlights that the probability of a positive trend is approximately 79% (Fig. ).</p>
 <div class="figure">
 <img src="a3srb_files/figure-html/unnamed-chunk-2-1.png" alt="Trends in sex ratio at births for Southern Resident killer whales. Shown are all births (with GLM best fit) and the posterior distribution of the coefficient for the year term (trend). Positive values of the coefficient would support an increasing trend through time. The red line on the top panel represents the 50:50 sex ratio, and red lines on the histogram represent the 95% CIs. \label{fig:srb}" width="700"><p class="caption">
 Trends in sex ratio at births for Southern Resident killer whales. Shown are all births (with GLM best fit) and the posterior distribution of the coefficient for the year term (trend). Positive values of the coefficient would support an increasing trend through time. The red line on the top panel represents the 50:50 sex ratio, and red lines on the histogram represent the 95% CIs. 

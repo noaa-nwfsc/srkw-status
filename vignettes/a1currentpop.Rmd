@@ -28,8 +28,8 @@ format_names = function(x) {
   }
   return(x)
 }
-
-expanded = expand(orca)
+data(ages2stages)
+expanded = expand(orca, ages2stages=ages2stages)
 
 expanded$animal = format_names(expanded$animal)
 expanded$pod = format_names(expanded$pod)

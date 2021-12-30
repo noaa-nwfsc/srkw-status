@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Time series of reproductive females • kwdemog</title>
+<title>Future population projections • kwdemog</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Time series of reproductive females">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Future population projections">
 <meta property="og:description" content="kwdemog">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -87,36 +87,24 @@
 
       
 
-      </header><script src="a4reprofemales_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="a6projections_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Time series of reproductive females</h1>
+      <h1 data-toc-skip>Future population projections</h1>
                         <h4 class="author">Eric J. Ward</h4>
             
             <h4 class="date">2021-12-30</h4>
       
       
-      <div class="hidden name"><code>a4reprofemales.Rmd</code></div>
+      <div class="hidden name"><code>a6projections.Rmd</code></div>
 
     </div>
 
     
     
-<div id="reproductive-females" class="section level3">
-<h3 class="hasAnchor">
-<a href="#reproductive-females" class="anchor"></a>Reproductive females</h3>
-<p>The number of reproductive aged females was at its lowest point in the late 1970s, in part because of the prior harvesting that occurred into the early 1970s (Fig. ). Though the overall number of reproductive females has been fluctuating between 25-35 for most of the last 40 years, there have been contrasting changes by pod, with declines in L pod females and increases in J pod (Fig. ). At the start of the survey in 1976, the distribution of females was skewed toward younger ages with few older, post-reproductive females. The distribution in recent years is more uniform across female ages (in other words, more females in their 30s, Fig. ).</p>
-<div class="figure">
-<img src="a4reprofemales_files/figure-html/reprofemales-1.png" alt="Distribution of ages of reproductive age females (10-42, inclusive) for Southern Residents by year since 1976. \label{fig:plot-repro-females}" width="700"><p class="caption">
-Distribution of ages of reproductive age females (10-42, inclusive) for Southern Residents by year since 1976. 
-</p>
-</div>
-<div class="figure">
-<img src="a4reprofemales_files/figure-html/reprots-1.png" alt="Time series of reproductive age females (10-42, inclusive) for Southern Residents by year since 1976. \label{fig:ts-repro-females}" width="700"><p class="caption">
-Time series of reproductive age females (10-42, inclusive) for Southern Residents by year since 1976. 
-</p>
-</div>
-</div>
+<p>We can use stochastic individual based models to project the SRKW population into the future. This is done across several scenarios where demographic rates are assumed to be (1) drawn across all years, (2) drawn from the last 5 years, and (3) drawn from the late 1980s, when survival and fecundity rates were relatively high. Note: these projections don’t include parametric uncertainty for birth rates and death rates. 1000 iterations are run for each scenario.</p>
+<p>Figure 1. Distribution of projected SRKW population sizes, under several scenarios. Solid lines represent the mean across 1000 iterations, and ribbons represent the 95% intervals.</p>
+<p><img src="a6projections_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

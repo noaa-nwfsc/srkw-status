@@ -1,0 +1,144 @@
+---
+title: "Density dependence in killer whales"
+author: "Eric J. Ward"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Density dependence in killer whales}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
+  comment = "#>"
+)
+library(kwdemog)
+library(dplyr)
+library(ggplot2)
+library(mgcv)
+
+data(orca)
+year.end = as.numeric(substr(Sys.Date(),1,4))
+refit_models = FALSE
+report_start = year.end-5
+# format whale names just for consistency
+format_names = function(x) {
+  for(i in 1:2) {
+  indx = which(substr(x,2,2) == "0")
+  x[indx] = paste0(substr(x[indx],1,1), substr(x[indx],3,nchar(x[indx])))
+  }
+  return(x)
+}
+data(ages2stages)
+expanded = expand(orca,ages2stages=ages2stages)
+
+expanded$animal = format_names(expanded$animal)
+expanded$pod = format_names(expanded$pod)
+expanded$matriline = format_names(expanded$matriline)
+expanded$mom = format_names(expanded$mom)
+expanded$dad = format_names(expanded$dad)
+
+#report_dir = "projections/"
+whaleData = expanded
+
+```
+
+### Approach  
+Over the decade from 2010-2020, there appeared to be a slowing of fecundity rates for both the SRKW and NRKW populations. We can examine correlations between those estimated fecundity rates, and aggregate population size.  
+
+### Fecundity  
+
+```{r}
+whaleData = dplyr::filter(whaleData, sexF1M2==1, 
+                          includeFec==1, 
+                          age >= 10,
+                          age<=43,
+                          alive == 1,
+                          !is.na(gave_birth))
+
+fit <- gam(gave_birth ~ s(year) + age+I(age^2),data=whaleData,
+           family="binomial")
+
+newdat_f = expand.grid(year =1976:max(whaleData$year),
+                     age=20)
+newdat_f$pred = predict(fit, newdat_f,type="link")
+newdat_f$pred_se = predict(fit, newdat_f, se.fit=TRUE,type="link")$se.fit
+
+newdat_f$fecundity = plogis(newdat_f$pred)
+newdat_f$lo = plogis(newdat_f$pred-1.96*newdat_f$pred_se)
+newdat_f$hi = plogis(newdat_f$pred+1.96*newdat_f$pred_se)
+
+newdat_f = dplyr::select(newdat_f, -pred, -pred_se)
+```
+
+Figure 1. Estimated fecundity rates for 20-year females in the SRKW population. Ribbons represent 95% CIs.  
+```{r}
+ggplot(newdat_f, aes(year,fecundity,col=age,fill=age)) + 
+  geom_ribbon(aes(ymin=lo,ymax=hi),alpha=0.3,col=NA) + 
+  geom_line() +
+  scale_color_viridis_c(end=0.8) + 
+  scale_fill_viridis_c(end=0.8) + 
+  theme_bw() + 
+  xlab("Year") + ylab("Fecundity") + 
+  theme(legend.position = "none") + 
+  theme(strip.background =element_rect(fill="white"))
+```  
+
+There is not a clear relationship between declining fecundity rates and SRKW population size, because we see both high and low fecundity rates at low total SRKW population sizes.  
+
+```{r}
+tot_srkw = dplyr::filter(expanded,alive==1) %>% 
+  dplyr::group_by(year) %>% 
+  dplyr::summarise(n = length(unique(animal)))
+newdat_f = dplyr::left_join(newdat_f, tot_srkw)
+```
+
+Figure 2. Estimated fecundity rates for 20-year females in the SRKW population versus total SRKW population size.  
+
+```{r}
+ggplot(newdat_f, aes(n,fecundity,col=year,fill=year)) + 
+  geom_point(size=4,alpha=0.7) +
+  theme_bw() + 
+  xlab("SRKW population") + ylab("Fecundity") + 
+  theme(strip.background =element_rect(fill="white"))
+```
+
+Given that fecundity rates for both populations are falling over the same period, a better proxy for density dependent effects may be the combined population sizes of SRKW and NRKW animals. This shows a clear declining relationship between fecundity rates and population size. The shape of the relationship is evidence of non-linear density dependence, and is similar to results seen in pinnipeds and large terrestrial mammals.
+
+Figure 3. Combined killer whale population sizes (SRKW + NRKW).  
+
+```{r}
+nrkw = data.frame("year"=1976:2019,
+                  "nrkw" = c(130,133,135,144,151,
+                             155,158,161,161,168,
+                             175,182,188,190,198,
+                             201,206,203,208,211,
+                             218,224,221,225,215,
+                             206,208,210,225,241,
+                             243,250,260,263,270,
+                             271,283,283,294,302,
+                             306,311,314,314
+                             ))
+newdat_f = dplyr::left_join(newdat_f, nrkw)
+```
+
+
+```{r}
+ggplot(newdat_f, aes(year,n+nrkw,col=year,fill=year)) + 
+  geom_point(size=4,alpha=0.7) +
+  theme_bw() + 
+  ylab("SRKW + NRKW population") + xlab("Year") + 
+  theme(strip.background =element_rect(fill="white"))
+```
+
+Figure 4. Estimated fecundity rates for 20-year females in the SRKW population versus combined (SRKW + NRKW) population size.  
+
+```{r}
+ggplot(newdat_f, aes(n+nrkw,fecundity,col=year,fill=year)) + 
+  geom_point(size=4,alpha=0.7) +
+  theme_bw() + 
+  xlab("SRKW + NRKW population") + ylab("Fecundity") + 
+  theme(strip.background =element_rect(fill="white"))
+```

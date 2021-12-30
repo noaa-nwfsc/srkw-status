@@ -9,7 +9,8 @@ expand(
   start_year = 1976,
   current_year = NULL,
   fem_age_mat = 10,
-  fem_age_senesc = 43
+  fem_age_senesc = 43,
+  ages2stages = NULL
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ expand(
 \item{fem_age_mat}{Female age at maturity, 10 years of age by default}
 
 \item{fem_age_senesc}{Female age at reproductive senescence, defaults to 43}
+
+\item{ages2stages}{A data frame of mapping ages and sexes to stages}
 }
 \description{
 Function expand expands a data frame from animals as observations to animal-years as obserations
@@ -30,9 +33,10 @@ Function expand expands a data frame from animals as observations to animal-year
 \dontrun{
 library(kwdemog)
 data(orca)
-expanded_data = expand(orca)
+data(ages2stages)
+expanded_data = expand(orca, ages2stages = ages2stages)
 # or use a filename
 expanded_data = expand("use_this_file.csv", start_year = 1979, current_year = 2018,
-fem_age_mat = 10, fem_age_senesc = 43)
+fem_age_mat = 10, fem_age_senesc = 43, ages2stages = ages2stages)
 }
 }

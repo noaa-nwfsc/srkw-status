@@ -1,10 +1,10 @@
 ---
-title: "Examples of using kwdemog data and functions"
+title: "Examples of using data and functions"
 author: "Eric J. Ward"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Examples of using kwdemog data and functions}
+  %\VignetteIndexEntry{Examples of using data and functions}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -46,7 +46,8 @@ head(orca)
 But for modeling, it's more useful to work with an expanded version, where every animal-year combination gets its own row.  The expand() function does this step, 
 
 ```{r}
-whaleData = kwdemog::expand(orca)
+data(ages2stages)
+whaleData = kwdemog::expand(orca, ages2stages =ages2stages)
 ```
 
 Then we can do all kinds of filtering for various analyses -- e.g. 

@@ -5,7 +5,7 @@
 #' @param current_year End year for the expanded data, defaults to current calendar year
 #' @param fem_age_mat Female age at maturity, 10 years of age by default
 #' @param fem_age_senesc Female age at reproductive senescence, defaults to 43
-#'
+#' @param ages2stages A data frame of mapping ages and sexes to stages
 #' @import dplyr
 #' @importFrom utils read.csv
 #'
@@ -14,16 +14,16 @@
 #' \dontrun{
 #' library(kwdemog)
 #' data(orca)
-#' expanded_data = expand(orca)
+#' data(ages2stages)
+#' expanded_data = expand(orca, ages2stages = ages2stages)
 #' # or use a filename
 #' expanded_data = expand("use_this_file.csv", start_year = 1979, current_year = 2018,
-#' fem_age_mat = 10, fem_age_senesc = 43)
+#' fem_age_mat = 10, fem_age_senesc = 43, ages2stages = ages2stages)
 #' }
 expand <- function(filename, start_year = 1976, current_year = NULL,
-  fem_age_mat = 10, fem_age_senesc = 43) {
+  fem_age_mat = 10, fem_age_senesc = 43, ages2stages = NULL) {
   if(is.null(current_year)) current_year = as.numeric(substr(Sys.Date(),1,4))
-  directory = find.package("kwdemog")
-  ages2stages = read.csv(paste0(directory, "/extdata/ages2stages.csv"), stringsAsFactors = FALSE)
+  
   if(class(filename) == "data.frame") orca = filename
   if(class(filename) == "character") orca = read.csv(filename, stringsAsFactors = FALSE)
   orca$population = ifelse(orca$pod %in% c("J001","K001","L001"), "SRKW", "NRKW")
