@@ -68,7 +68,8 @@ ggplot(repro, aes(x = `age`, y = `year`, fill = ..x..)) +
   scale_y_discrete(breaks=c("1980","1985","1990","1995","2000","2005","2010","2015","2020"),
         labels=c("1980","1985","1990","1995","2000","2005","2010","2015","2020")) + 
   coord_flip() + 
-  theme_bw()
+  theme_bw() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
 ```
 
@@ -84,6 +85,8 @@ g2 = group_by(repro, year, pod) %>% summarize(m = length(unique(animal))) %>%
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) + theme_bw() + 
   scale_color_viridis(discrete = TRUE, end = 0.8) + 
   scale_fill_viridis(discrete = TRUE, end = 0.8)
-gridExtra::grid.arrange(g1, g2, ncol = 1)
+gridExtra::grid.arrange(g1, g2, ncol = 1) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
 
 ```
