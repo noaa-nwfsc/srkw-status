@@ -77,16 +77,24 @@ ggplot(repro, aes(x = `age`, y = `year`, fill = ..x..)) +
 g1 = group_by(repro, year) %>% summarize(m = length(unique(animal)),SRKW="Total") %>% 
   ggplot(aes(year, m, group=SRKW,color=SRKW)) + geom_line(col="black") + geom_point() + 
   xlab("Year") + ylab("Reproductive aged females") + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  scale_x_discrete(breaks=c("1980","1985","1990","1995","2000","2005","2010","2015","2020"),
+        labels=c("1980","1985","1990","1995","2000","2005","2010","2015","2020"))+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
   theme_bw()
+g1
+```
+
+
+```{r reprots-pod, fig.cap="Time series of reproductive age females (10-42, inclusive) for Southern Residents by pod and year since 1976. \\label{fig:ts-repro-females-pod}"}
 g2 = group_by(repro, year, pod) %>% summarize(m = length(unique(animal))) %>% 
   ggplot(aes(year, m, group=pod, color=pod)) + geom_line() + geom_point() + 
   xlab("Year") + ylab("Reproductive aged females") + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + theme_bw() + 
+  scale_x_discrete(breaks=c("1980","1985","1990","1995","2000","2005","2010","2015","2020"),
+        labels=c("1980","1985","1990","1995","2000","2005","2010","2015","2020"))+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  theme_bw()+
   scale_color_viridis(discrete = TRUE, end = 0.8) + 
   scale_fill_viridis(discrete = TRUE, end = 0.8)
-gridExtra::grid.arrange(g1, g2, ncol = 1) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-
+g2
 ```
+
