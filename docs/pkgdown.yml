@@ -1,5 +1,5 @@
-pandoc: 2.7.3
-pkgdown: 1.6.1
+pandoc: 2.11.4
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   a0vignette: a0vignette.html
@@ -9,5 +9,5 @@ articles:
   a4reprofemales: a4reprofemales.html
   a5densitydependence: a5densitydependence.html
   a6projections: a6projections.html
-last_built: 2022-01-06T17:57Z
+last_built: 2022-08-19T18:26Z
 
