@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -72,43 +72,54 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">expand</span><span class="op">(</span>
-  <span class="va">filename</span>,
-  start_year <span class="op">=</span> <span class="fl">1976</span>,
-  current_year <span class="op">=</span> <span class="cn">NULL</span>,
-  fem_age_mat <span class="op">=</span> <span class="fl">10</span>,
-  fem_age_senesc <span class="op">=</span> <span class="fl">43</span>,
-  ages2stages <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">expand</span><span class="op">(</span></span>
+<span>  <span class="va">filename</span>,</span>
+<span>  start_year <span class="op">=</span> <span class="fl">1976</span>,</span>
+<span>  current_year <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fem_age_mat <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  fem_age_senesc <span class="op">=</span> <span class="fl">43</span>,</span>
+<span>  ages2stages <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>filename</dt>
 <dd><p>A file location (csv file) with births and deaths of each animal</p></dd>
+
+
 <dt>start_year</dt>
 <dd><p>Starting year for the expanded data, starts at 1976</p></dd>
+
+
 <dt>current_year</dt>
 <dd><p>End year for the expanded data, defaults to current calendar year</p></dd>
+
+
 <dt>fem_age_mat</dt>
 <dd><p>Female age at maturity, 10 years of age by default</p></dd>
+
+
 <dt>fem_age_senesc</dt>
 <dd><p>Female age at reproductive senescence, defaults to 43</p></dd>
+
+
 <dt>ages2stages</dt>
 <dd><p>A data frame of mapping ages and sexes to stages</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">kwdemog</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">orca</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ages2stages</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">expanded_data</span> <span class="op">=</span> <span class="fu">expand</span><span class="op">(</span><span class="va">orca</span>, ages2stages <span class="op">=</span> <span class="va">ages2stages</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># or use a filename</span></span>
-<span class="r-in"><span class="va">expanded_data</span> <span class="op">=</span> <span class="fu">expand</span><span class="op">(</span><span class="st">"use_this_file.csv"</span>, start_year <span class="op">=</span> <span class="fl">1979</span>, current_year <span class="op">=</span> <span class="fl">2018</span>,</span>
-<span class="r-in">fem_age_mat <span class="op">=</span> <span class="fl">10</span>, fem_age_senesc <span class="op">=</span> <span class="fl">43</span>, ages2stages <span class="op">=</span> <span class="va">ages2stages</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">kwdemog</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">orca</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ages2stages</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">expanded_data</span> <span class="op">=</span> <span class="fu">expand</span><span class="op">(</span><span class="va">orca</span>, ages2stages <span class="op">=</span> <span class="va">ages2stages</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># or use a filename</span></span></span>
+<span class="r-in"><span><span class="va">expanded_data</span> <span class="op">=</span> <span class="fu">expand</span><span class="op">(</span><span class="st">"use_this_file.csv"</span>, start_year <span class="op">=</span> <span class="fl">1979</span>, current_year <span class="op">=</span> <span class="fl">2018</span>,</span></span>
+<span class="r-in"><span>fem_age_mat <span class="op">=</span> <span class="fl">10</span>, fem_age_senesc <span class="op">=</span> <span class="fl">43</span>, ages2stages <span class="op">=</span> <span class="va">ages2stages</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -123,7 +134,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

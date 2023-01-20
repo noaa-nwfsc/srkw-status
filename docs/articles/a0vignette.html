@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -87,9 +87,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Examples of using data and functions</h1>
-                        <h4 data-toc-skip class="author">Eric J. Ward</h4>
+                        <h4 data-toc-skip class="author">Eric J.
+Ward</h4>
             
-            <h4 data-toc-skip class="date">2022-08-19</h4>
+            <h4 data-toc-skip class="date">2023-01-20</h4>
       
       
       <div class="hidden name"><code>a0vignette.Rmd</code></div>
@@ -98,44 +99,48 @@
 
     
     
-<p>The SRKW orca data is included as a dataframe. Each row is an individual, with birth and death information.</p>
+<p>The SRKW orca data is included as a dataframe. Each row is an
+individual, with birth and death information.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">orca</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">orca</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt;     X animal birth death  pod matriline  mom sexF1M2 includeFec includeSurv</span>
-<span class="co">#&gt; 1 485   J001  1951  2010 J001      J002 &lt;NA&gt;       2          1           1</span>
-<span class="co">#&gt; 2 486   J002  1911  2017 J001      J002 &lt;NA&gt;       1          1           1</span>
-<span class="co">#&gt; 3 487   J003  1953  1995 J001      J016 &lt;NA&gt;       2          1           1</span>
-<span class="co">#&gt; 4 488   J004  1957  1995 J001      J008 &lt;NA&gt;       1          1           1</span>
-<span class="co">#&gt; 5 489   J005  1938  1997 J001      J009 &lt;NA&gt;       1          0           1</span>
-<span class="co">#&gt; 6 490   J006  1956  1998 J001      J008 &lt;NA&gt;       2          1           1</span>
-<span class="co">#&gt;   population</span>
-<span class="co">#&gt; 1       SRKW</span>
-<span class="co">#&gt; 2       SRKW</span>
-<span class="co">#&gt; 3       SRKW</span>
-<span class="co">#&gt; 4       SRKW</span>
-<span class="co">#&gt; 5       SRKW</span>
-<span class="co">#&gt; 6       SRKW</span></code></pre>
-<p>But for modeling, it’s more useful to work with an expanded version, where every animal-year combination gets its own row. The expand() function does this step,</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">orca</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">orca</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt;     X animal birth death  pod matriline  mom sexF1M2 includeFec includeSurv</span></span>
+<span><span class="co">#&gt; 1 485   J001  1951  2010 J001      J002 &lt;NA&gt;       2          1           1</span></span>
+<span><span class="co">#&gt; 2 486   J002  1911  2017 J001      J002 &lt;NA&gt;       1          1           1</span></span>
+<span><span class="co">#&gt; 3 487   J003  1953  1995 J001      J016 &lt;NA&gt;       2          1           1</span></span>
+<span><span class="co">#&gt; 4 488   J004  1957  1995 J001      J008 &lt;NA&gt;       1          1           1</span></span>
+<span><span class="co">#&gt; 5 489   J005  1938  1997 J001      J009 &lt;NA&gt;       1          0           1</span></span>
+<span><span class="co">#&gt; 6 490   J006  1956  1998 J001      J008 &lt;NA&gt;       2          1           1</span></span>
+<span><span class="co">#&gt;   population</span></span>
+<span><span class="co">#&gt; 1       SRKW</span></span>
+<span><span class="co">#&gt; 2       SRKW</span></span>
+<span><span class="co">#&gt; 3       SRKW</span></span>
+<span><span class="co">#&gt; 4       SRKW</span></span>
+<span><span class="co">#&gt; 5       SRKW</span></span>
+<span><span class="co">#&gt; 6       SRKW</span></span></code></pre>
+<p>But for modeling, it’s more useful to work with an expanded version,
+where every animal-year combination gets its own row. The expand()
+function does this step,</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ages2stages</span><span class="op">)</span>
-<span class="va">whaleData</span> <span class="op">=</span> <span class="fu">kwdemog</span><span class="fu">::</span><span class="fu"><a href="../reference/expand.html">expand</a></span><span class="op">(</span><span class="va">orca</span>, ages2stages <span class="op">=</span><span class="va">ages2stages</span><span class="op">)</span></code></pre></div>
-<p>Then we can do all kinds of filtering for various analyses – e.g. </p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ages2stages</span><span class="op">)</span></span>
+<span><span class="va">whaleData</span> <span class="op">=</span> <span class="fu">kwdemog</span><span class="fu">::</span><span class="fu"><a href="../reference/expand.html">expand</a></span><span class="op">(</span><span class="va">orca</span>, ages2stages <span class="op">=</span><span class="va">ages2stages</span><span class="op">)</span></span></code></pre></div>
+<p>Then we can do all kinds of filtering for various analyses –
+e.g. </p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">whaleData</span> <span class="op">=</span> <span class="va">whaleData</span><span class="op">[</span><span class="va">whaleData</span><span class="op">$</span><span class="va">birth</span> <span class="op">&gt;</span> <span class="fl">1970</span>,<span class="op">]</span>
-
-<span class="co"># A handful of unknown sexes need to be randomly filled in</span>
-<span class="va">whaleData</span><span class="op">$</span><span class="va">sexF1M2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">sexF1M2</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, size<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">sexF1M2</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span>, replace<span class="op">=</span><span class="cn">T</span><span class="op">)</span>
-
-<span class="va">whales_since76</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">orca</span><span class="op">$</span><span class="va">animal</span><span class="op">[</span><span class="va">orca</span><span class="op">$</span><span class="va">birth</span> <span class="op">&gt;</span> <span class="fl">1970</span><span class="op">]</span><span class="op">)</span>
-
-<span class="va">sub</span> <span class="op">=</span> <span class="va">whaleData</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">animal</span><span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span><span class="va">whales_since76</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">population</span><span class="op">==</span><span class="st">"SRKW"</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">gave_birth</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">sexF1M2</span><span class="op">==</span><span class="st">"1"</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">age</span><span class="op">&gt;=</span><span class="fl">10</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">age</span><span class="op">&lt;</span> <span class="fl">43</span><span class="op">)</span>, <span class="op">]</span>
-<span class="va">sub</span><span class="op">$</span><span class="va">animal</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">sub</span><span class="op">$</span><span class="va">animal</span><span class="op">)</span>
-
-
-<span class="co"># filter out females alive in current year</span>
-<span class="va">currently_alive</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sub</span>, <span class="va">year</span> <span class="op">==</span> <span class="va">year.end</span>, <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">death</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">currently_alive</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">whaleData</span> <span class="op">=</span> <span class="va">whaleData</span><span class="op">[</span><span class="va">whaleData</span><span class="op">$</span><span class="va">birth</span> <span class="op">&gt;</span> <span class="fl">1970</span>,<span class="op">]</span></span>
+<span></span>
+<span><span class="co"># A handful of unknown sexes need to be randomly filled in</span></span>
+<span><span class="va">whaleData</span><span class="op">$</span><span class="va">sexF1M2</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">sexF1M2</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, size<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">sexF1M2</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span>, replace<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">whales_since76</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">orca</span><span class="op">$</span><span class="va">animal</span><span class="op">[</span><span class="va">orca</span><span class="op">$</span><span class="va">birth</span> <span class="op">&gt;</span> <span class="fl">1970</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sub</span> <span class="op">=</span> <span class="va">whaleData</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">animal</span><span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span><span class="va">whales_since76</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">population</span><span class="op">==</span><span class="st">"SRKW"</span> <span class="op">&amp;</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">gave_birth</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">sexF1M2</span><span class="op">==</span><span class="st">"1"</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">age</span><span class="op">&gt;=</span><span class="fl">10</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">age</span><span class="op">&lt;</span> <span class="fl">43</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="va">sub</span><span class="op">$</span><span class="va">animal</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">sub</span><span class="op">$</span><span class="va">animal</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># filter out females alive in current year</span></span>
+<span><span class="va">currently_alive</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sub</span>, <span class="va">year</span> <span class="op">==</span> <span class="va">year.end</span>, <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">death</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">currently_alive</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="4%">
@@ -173,7 +178,7 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">J022</td>
 <td align="right">506</td>
 <td align="right">1985</td>
@@ -185,12 +190,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">37</td>
+<td align="right">38</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">J031</td>
 <td align="right">515</td>
 <td align="right">1995</td>
@@ -202,12 +207,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">27</td>
+<td align="right">28</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">J035</td>
 <td align="right">519</td>
 <td align="right">1998</td>
@@ -219,12 +224,12 @@
 <td align="right">1</td>
 <td align="right">0</td>
 <td align="left">SRKW</td>
-<td align="right">24</td>
+<td align="right">25</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">J036</td>
 <td align="right">521</td>
 <td align="right">1999</td>
@@ -236,29 +241,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">23</td>
+<td align="right">24</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="right">2022</td>
-<td align="left">J037</td>
-<td align="right">522</td>
-<td align="right">2001</td>
-<td align="right">NA</td>
-<td align="left">J001</td>
-<td align="left">J002</td>
-<td align="left">J014</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">SRKW</td>
-<td align="right">21</td>
-<td align="right">1</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">J040</td>
 <td align="right">525</td>
 <td align="right">2004</td>
@@ -270,12 +258,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">18</td>
+<td align="right">19</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="odd">
-<td align="right">2022</td>
+<tr class="even">
+<td align="right">2023</td>
 <td align="left">J041</td>
 <td align="right">526</td>
 <td align="right">2005</td>
@@ -287,12 +275,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">17</td>
+<td align="right">18</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="even">
-<td align="right">2022</td>
+<tr class="odd">
+<td align="right">2023</td>
 <td align="left">J042</td>
 <td align="right">527</td>
 <td align="right">2007</td>
@@ -304,12 +292,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">15</td>
+<td align="right">16</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="odd">
-<td align="right">2022</td>
+<tr class="even">
+<td align="right">2023</td>
 <td align="left">J046</td>
 <td align="right">531</td>
 <td align="right">2009</td>
@@ -321,12 +309,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">13</td>
+<td align="right">14</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="even">
-<td align="right">2022</td>
+<tr class="odd">
+<td align="right">2023</td>
 <td align="left">J047</td>
 <td align="right">532</td>
 <td align="right">2010</td>
@@ -338,12 +326,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">12</td>
+<td align="right">13</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="odd">
-<td align="right">2022</td>
+<tr class="even">
+<td align="right">2023</td>
 <td align="left">K016</td>
 <td align="right">558</td>
 <td align="right">1985</td>
@@ -355,29 +343,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">37</td>
+<td align="right">38</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="even">
-<td align="right">2022</td>
-<td align="left">K020</td>
-<td align="right">562</td>
-<td align="right">1986</td>
-<td align="right">NA</td>
-<td align="left">K001</td>
-<td align="left">K007</td>
-<td align="left">K013</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="left">SRKW</td>
-<td align="right">36</td>
-<td align="right">1</td>
-<td align="right">1</td>
-</tr>
 <tr class="odd">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">K022</td>
 <td align="right">564</td>
 <td align="right">1987</td>
@@ -389,12 +360,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">35</td>
+<td align="right">36</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">K027</td>
 <td align="right">569</td>
 <td align="right">1994</td>
@@ -406,12 +377,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">28</td>
+<td align="right">29</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">K042</td>
 <td align="right">584</td>
 <td align="right">2008</td>
@@ -423,12 +394,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">14</td>
+<td align="right">15</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">K043</td>
 <td align="right">585</td>
 <td align="right">2010</td>
@@ -440,12 +411,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">12</td>
+<td align="right">13</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">L072</td>
 <td align="right">648</td>
 <td align="right">1986</td>
@@ -457,12 +428,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">36</td>
+<td align="right">37</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">L077</td>
 <td align="right">653</td>
 <td align="right">1987</td>
@@ -474,12 +445,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">35</td>
+<td align="right">36</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">L082</td>
 <td align="right">658</td>
 <td align="right">1990</td>
@@ -491,12 +462,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">32</td>
+<td align="right">33</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td align="right">2022</td>
+<td align="right">2023</td>
 <td align="left">L083</td>
 <td align="right">659</td>
 <td align="right">1990</td>
@@ -508,12 +479,29 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">32</td>
+<td align="right">33</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 <tr class="odd">
-<td align="right">2022</td>
+<td align="right">2023</td>
+<td align="left">L086</td>
+<td align="right">662</td>
+<td align="right">1991</td>
+<td align="right">NA</td>
+<td align="left">L001</td>
+<td align="left">L004</td>
+<td align="left">L004</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">SRKW</td>
+<td align="right">32</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">2023</td>
 <td align="left">L090</td>
 <td align="right">666</td>
 <td align="right">1993</td>
@@ -525,12 +513,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">29</td>
+<td align="right">30</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="even">
-<td align="right">2022</td>
+<tr class="odd">
+<td align="right">2023</td>
 <td align="left">L091</td>
 <td align="right">667</td>
 <td align="right">1995</td>
@@ -542,12 +530,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">27</td>
+<td align="right">28</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="odd">
-<td align="right">2022</td>
+<tr class="even">
+<td align="right">2023</td>
 <td align="left">L094</td>
 <td align="right">670</td>
 <td align="right">1995</td>
@@ -559,12 +547,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">27</td>
+<td align="right">28</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="even">
-<td align="right">2022</td>
+<tr class="odd">
+<td align="right">2023</td>
 <td align="left">L103</td>
 <td align="right">679</td>
 <td align="right">2003</td>
@@ -576,12 +564,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">19</td>
+<td align="right">20</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="odd">
-<td align="right">2022</td>
+<tr class="even">
+<td align="right">2023</td>
 <td align="left">L113</td>
 <td align="right">689</td>
 <td align="right">2009</td>
@@ -593,12 +581,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">13</td>
+<td align="right">14</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="even">
-<td align="right">2022</td>
+<tr class="odd">
+<td align="right">2023</td>
 <td align="left">L118</td>
 <td align="right">694</td>
 <td align="right">2011</td>
@@ -610,12 +598,12 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">11</td>
+<td align="right">12</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
-<tr class="odd">
-<td align="right">2022</td>
+<tr class="even">
+<td align="right">2023</td>
 <td align="left">L119</td>
 <td align="right">695</td>
 <td align="right">2012</td>
@@ -627,29 +615,46 @@
 <td align="right">1</td>
 <td align="right">1</td>
 <td align="left">SRKW</td>
-<td align="right">10</td>
+<td align="right">11</td>
 <td align="right">1</td>
 <td align="right">0</td>
 </tr>
 </tbody>
 </table>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># find last birth for each of these</span>
-<span class="va">last_birth</span> <span class="op">=</span> <span class="fu">group_by</span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sub</span>, <span class="va">gave_birth</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span>, <span class="va">animal</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>last_birth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">year</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">gave_birth</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
-<span class="va">last_birth</span><span class="op">$</span><span class="va">last_birth</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">is.finite</a></span><span class="op">(</span><span class="va">last_birth</span><span class="op">$</span><span class="va">last_birth</span><span class="op">)</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA</span>
-
-<span class="va">currently_alive</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">currently_alive</span>, <span class="va">last_birth</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>unlikely_future_mom<span class="op">=</span><span class="st">""</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">animal</span>,<span class="va">age</span>,<span class="va">last_birth</span>,<span class="va">unlikely_future_mom</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># find last birth for each of these</span></span>
+<span><span class="va">last_birth</span> <span class="op">=</span> <span class="fu">group_by</span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">sub</span>, <span class="va">gave_birth</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span>, <span class="va">animal</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>last_birth <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">year</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">gave_birth</span><span class="op">==</span><span class="fl">1</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">last_birth</span><span class="op">$</span><span class="va">last_birth</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html" class="external-link">is.finite</a></span><span class="op">(</span><span class="va">last_birth</span><span class="op">$</span><span class="va">last_birth</span><span class="op">)</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA</span></span>
+<span></span>
+<span><span class="va">currently_alive</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">currently_alive</span>, <span class="va">last_birth</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>unlikely_future_mom<span class="op">=</span><span class="st">""</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">animal</span>,<span class="va">age</span>,<span class="va">last_birth</span>,<span class="va">unlikely_future_mom</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="notes-on-demographic-modeling">Notes on demographic modeling<a class="anchor" aria-label="anchor" href="#notes-on-demographic-modeling"></a>
 </h3>
-<p>As a cautionary note, there may be interest in using these data to test correlations with prey (salmon) indices or other environmental drivers. There are several very nuanced and important things to note about different subsets of these data.</p>
-<p>First, ages on animals in the beginning of the surveys were often ‘guessed’, and in the cases of females, assigned an age of 40 based on the last observed birth. This procedure will generate bias (many of the animals being &lt; 40 during their last birth), so these animals have been excluded from fecundity-at-age analyses, or only used in stage-based survival estimates. The <code>includeSurv</code> and <code>includeFec</code> columns are used to designate most of these cases (1 = include, 0 = exclude).</p>
-<p>Second, a handful of deaths are either tied to human disturbance (direct or indirectly associated with ship strikes) or are not independent. Calves that died at the same time as their moms are not independent (J24, J54, K39, L97, L104). Other animals are associated with vessel strikes (L98), satellite tag infections (L95) or unknown trauma (L112). For the latter three animals, it is possible to include the years they survive as data, and replace the death data with an NA. For example:</p>
+<p>As a cautionary note, there may be interest in using these data to
+test correlations with prey (salmon) indices or other environmental
+drivers. There are several very nuanced and important things to note
+about different subsets of these data.</p>
+<p>First, ages on animals in the beginning of the surveys were often
+‘guessed’, and in the cases of females, assigned an age of 40 based on
+the last observed birth. This procedure will generate bias (many of the
+animals being &lt; 40 during their last birth), so these animals have
+been excluded from fecundity-at-age analyses, or only used in
+stage-based survival estimates. The <code>includeSurv</code> and
+<code>includeFec</code> columns are used to designate most of these
+cases (1 = include, 0 = exclude).</p>
+<p>Second, a handful of deaths are either tied to human disturbance
+(direct or indirectly associated with ship strikes) or are not
+independent. Calves that died at the same time as their moms are not
+independent (J24, J54, K39, L97, L104). Other animals are associated
+with vessel strikes (L98), satellite tag infections (L95) or unknown
+trauma (L112). For the latter three animals, it is possible to include
+the years they survive as data, and replace the death data with an NA.
+For example:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">whaleData</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">animal</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"L095"</span>,<span class="st">"L098"</span>,<span class="st">"L112"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">alive</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span>,<span class="op">]</span> <span class="op">=</span> <span class="cn">NA</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">whaleData</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">whaleData</span><span class="op">$</span><span class="va">animal</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"L095"</span>,<span class="st">"L098"</span>,<span class="st">"L112"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">whaleData</span><span class="op">$</span><span class="va">alive</span><span class="op">==</span><span class="fl">0</span><span class="op">)</span>,<span class="op">]</span> <span class="op">=</span> <span class="cn">NA</span></span></code></pre></div>
 </div>
   </div>
 
@@ -668,7 +673,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -72,42 +72,57 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">project</span><span class="op">(</span>
-  <span class="va">whale_data</span>,
-  seed <span class="op">=</span> <span class="fl">123</span>,
-  n_years <span class="op">=</span> <span class="fl">30</span>,
-  scenarios <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1981:2020"</span><span class="op">)</span>,
-  n_iter <span class="op">=</span> <span class="fl">200</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  p_female <span class="op">=</span> <span class="cn">NA</span>,
-  sd_female <span class="op">=</span> <span class="cn">NA</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">project</span><span class="op">(</span></span>
+<span>  <span class="va">whale_data</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">123</span>,</span>
+<span>  n_years <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  scenarios <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1981:2020"</span><span class="op">)</span>,</span>
+<span>  n_iter <span class="op">=</span> <span class="fl">200</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  p_female <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  sd_female <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>whale_data</dt>
 <dd><p>the expanded data frame, returned by <code><a href="expand.html">expand()</a></code></p></dd>
+
+
 <dt>seed</dt>
 <dd><p>the random seed used to initialize simulations, defaults to <code>123</code></p></dd>
+
+
 <dt>n_years</dt>
 <dd><p>the length of the time series projections, defaults to 30 time steps</p></dd>
+
+
 <dt>scenarios</dt>
 <dd><p>a character string, or vector of strings describing which scenario
 to be run. Should be entered as a range of years separated by a colon,
 e.g. "1981:1985" to use rates from 1981 to 1985 or ("1981:1985","1981:2021")</p></dd>
+
+
 <dt>n_iter</dt>
 <dd><p>the number of iterations per scenario, defaults to 200</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>whether to print status updates to screen, defaults to FALSE</p></dd>
+
+
 <dt>p_female</dt>
 <dd><p>The probability of a female birth, defaults to the empirical value since 1980</p></dd>
+
+
 <dt>n_births</dt>
 <dd><p>Used for uncertainty in the sex ratio at birth. The distribution of female births is
 assumed to be beta binomial, with shape parameters <code>(n_births+1)*p_female</code> and <code>(n_births+1)*(1-p_female)</code>.
 There have been approximately 100 births since 1980, and this defaults to the empirical number
 of births
 formula above</p></dd>
+
 </dl></div>
 
   </div>
@@ -122,7 +137,7 @@ formula above</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
