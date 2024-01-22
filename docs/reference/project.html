@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">kwdemog</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.3</span>
       </span>
     </div>
 
@@ -53,7 +53,13 @@
       <a href="../articles/a6projections.html">Future population projections</a>
     </li>
   </ul></li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/noaa-nwfsc/srkw-status/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -63,7 +69,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Function to project SRKW population in the future using individual based models</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/noaa-nwfsc/srkw-status/blob/HEAD/R/project.R" class="external-link"><code>R/project.R</code></a></small>
     <div class="hidden name"><code>project.Rd</code></div>
     </div>
 
@@ -80,7 +86,7 @@
 <span>  n_iter <span class="op">=</span> <span class="fl">200</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  p_female <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span>  sd_female <span class="op">=</span> <span class="cn">NA</span></span>
+<span>  n_births <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -117,11 +123,8 @@ e.g. "1981:1985" to use rates from 1981 to 1985 or ("1981:1985","1981:2021")</p>
 
 
 <dt>n_births</dt>
-<dd><p>Used for uncertainty in the sex ratio at birth. The distribution of female births is
-assumed to be beta binomial, with shape parameters <code>(n_births+1)*p_female</code> and <code>(n_births+1)*(1-p_female)</code>.
-There have been approximately 100 births since 1980, and this defaults to the empirical number
-of births
-formula above</p></dd>
+<dd><p>The number of births used to calculate <code>p_female</code>. By default, this defaults to the empirical
+value observed since 1980 the probability of female birth. Larger values result in more precise estimates of <code>p_female</code></p></dd>
 
 </dl></div>
 

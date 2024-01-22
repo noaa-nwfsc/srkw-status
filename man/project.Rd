@@ -12,7 +12,7 @@ project(
   n_iter = 200,
   verbose = FALSE,
   p_female = NA,
-  sd_female = NA
+  n_births = NA
 )
 }
 \arguments{
@@ -32,11 +32,8 @@ e.g. "1981:1985" to use rates from 1981 to 1985 or ("1981:1985","1981:2021")}
 
 \item{p_female}{The probability of a female birth, defaults to the empirical value since 1980}
 
-\item{n_births}{Used for uncertainty in the sex ratio at birth. The distribution of female births is
-assumed to be beta binomial, with shape parameters \code{(n_births+1)*p_female} and \code{(n_births+1)*(1-p_female)}.
-There have been approximately 100 births since 1980, and this defaults to the empirical number
-of births
-formula above}
+\item{n_births}{The number of births used to calculate \code{p_female}. By default, this defaults to the empirical
+value observed since 1980 the probability of female birth. Larger values result in more precise estimates of \code{p_female}}
 }
 \description{
 Function to project SRKW population in the future using individual based models

@@ -24,8 +24,8 @@ expand <- function(filename, start_year = 1976, current_year = NULL,
   fem_age_mat = 10, fem_age_senesc = 43, ages2stages = NULL) {
   if(is.null(current_year)) current_year = as.numeric(substr(Sys.Date(),1,4))
   
-  if(class(filename) == "data.frame") orca = filename
-  if(class(filename) == "character") orca = read.csv(filename, stringsAsFactors = FALSE)
+  if(inherits(filename, "data.frame")) orca = filename
+  if(inherits(filename, "character")) orca = read.csv(filename, stringsAsFactors = FALSE)
   orca$population = ifelse(orca$pod %in% c("J001","K001","L001"), "SRKW", "NRKW")
   # create expanded data frame of all years and animals
   alldat = expand.grid("year" = start_year:current_year,

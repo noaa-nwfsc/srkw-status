@@ -1,20 +1,22 @@
 Package: kwdemog
 Type: Package
 Title: Package for processing and exploring killer whale demographic data
-Version: 1.0.2
-Date: 2021-12-12
+Version: 1.0.3
+Date: 2023-12-15
 Authors@R: c(
     person(c("Eric", "J."), "Ward", email = "eric.ward@noaa.gov", 
       role = c("aut", "cre")))
 Description: Generates killer whale demographic data from rows (observations) and fits preliminary models.
 Depends:
     R (>= 4.0.0)
-Imports: dplyr,ggplot2,mgcv,usethis,rstanarm,stringr,viridis,ggridges
+Imports: dplyr,mgcv,usethis,stringr,ggridges,ggplot2,rstanarm,viridis
 Suggests: knitr,
     rmarkdown,
     gridExtra
+URL: https://noaa-nwfsc.github.io/srkw-status/
+BugReports: https://github.com/noaa-nwfsc/srkw-status/issues
 License: GPL (>=3)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true

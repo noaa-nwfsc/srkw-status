@@ -9,15 +9,12 @@
 #' e.g. "1981:1985" to use rates from 1981 to 1985 or ("1981:1985","1981:2021")
 #' @param verbose whether to print status updates to screen, defaults to FALSE
 #' @param p_female The probability of a female birth, defaults to the empirical value since 1980
-#' @param n_births Used for uncertainty in the sex ratio at birth. The distribution of female births is 
-#' assumed to be beta binomial, with shape parameters `(n_births+1)*p_female` and `(n_births+1)*(1-p_female)`.
-#' There have been approximately 100 births since 1980, and this defaults to the empirical number
-#' of births
-#' formula above
+#' @param n_births The number of births used to calculate `p_female`. By default, this defaults to the empirical
+#' value observed since 1980 the probability of female birth. Larger values result in more precise estimates of `p_female`
 #' 
 #' @import dplyr
 #' @import mgcv
-#' @importFrom stats rnorm runif
+#' @importFrom stats rnorm runif rbeta
 #' @importFrom stringr str_locate
 #'
 #' @export
@@ -27,7 +24,7 @@ project = function(whale_data, seed = 123,
                       n_iter = 200, 
                       verbose = FALSE,
                       p_female = NA,
-                      sd_female = NA) {
+                      n_births = NA) {
   set.seed(seed)
   
   data = whale_data
@@ -101,7 +98,8 @@ project = function(whale_data, seed = 123,
       
       initPopCurrent$sex = as.numeric(initPopCurrent$sex)
       # assign sexes to unsexed individuals [0s]
-      initPopCurrent$sex[which(initPopCurrent$Sex==0)] = ifelse(runif(length(which(initPopCurrent$sex==0))) < rnorm(length(which(initPopCurrent$sex==0)),p_female, sd_female), 1, 2)
+      initPopCurrent$sex[which(initPopCurrent$Sex==0)] = ifelse(runif(length(which(initPopCurrent$sex==0))) < rbeta(length(which(initPopCurrent$sex==0)), beta_1, beta_2), 1, 2)
+      #initPopCurrent$sex[which(initPopCurrent$Sex==0)] = ifelse(runif(length(which(initPopCurrent$sex==0))) < rnorm(length(which(initPopCurrent$sex==0)),p_female, sd_female), 1, 2)
       newID = 9999
       
       for(yrs in 1:dim(popSize)[2]) {
