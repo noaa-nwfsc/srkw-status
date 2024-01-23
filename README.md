@@ -2,7 +2,7 @@
 
 [![R-CMD-check](https://github.com/noaa-nwfsc/srkw-status/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/noaa-nwfsc/srkw-status/actions/workflows/R-CMD-check.yaml)
 
-This is a repository (pkgdown site here: https://noaa-nwfsc.github.io/srkw-status/) for archiving code and data related to projecting Southern Resident killer whale population status. The data are included as an .rda file in the /data folder. In addition to using this framework for population projections this has been used extensively for the Pacific Fishery Management Council Working Group to understand the effects of ocean salmon fisheries on killer whales. 
+This is a repository and data package (pkgdown site here: https://noaa-nwfsc.github.io/srkw-status/) for archiving code and data related to projecting Southern Resident killer whale population status. The census data are included as an .rda file in the /data folder. In addition to using this framework for population projections this has been used extensively for the Pacific Fishery Management Council Working Group to understand the effects of ocean salmon fisheries on killer whales. 
 
 [2020 PFMC Risk Assessment](https://www.pcouncil.org/documents/2020/02/e-3-a-srkw-workgroup-report-1-electronic-only.pdf/)
 
