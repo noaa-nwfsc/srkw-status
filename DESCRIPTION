@@ -9,7 +9,7 @@ Authors@R: c(
 Description: Generates killer whale demographic data from rows (observations) and fits preliminary models.
 Depends:
     R (>= 4.0.0)
-Imports: dplyr,mgcv,usethis,stringr,ggridges,ggplot2,rstanarm,viridis
+Imports: dplyr, mgcv, usethis, stringr, ggridges, ggplot2, rstanarm, viridis, testthat
 Suggests: knitr,
     rmarkdown,
     gridExtra
