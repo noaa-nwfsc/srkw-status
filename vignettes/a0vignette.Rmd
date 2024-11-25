@@ -18,7 +18,7 @@ library(kwdemog)
 library(dplyr)
 data(orca)
 year.end = as.numeric(substr(Sys.Date(),1,4))
-refit_models = FALSE
+refit_models = TRUE
 report_start = year.end-5
 # format whale names just for consistency
 format_names = function(x) {

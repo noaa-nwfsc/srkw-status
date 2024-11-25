@@ -20,7 +20,7 @@ library(ggplot2)
 
 data(orca)
 year.end = as.numeric(substr(Sys.Date(),1,4))
-refit_models = FALSE
+refit_models = TRUE
 report_start = year.end-5
 # format whale names just for consistency
 format_names = function(x) {
@@ -44,7 +44,7 @@ expanded$dad = format_names(expanded$dad)
 We can use stochastic individual based models to project the SRKW population into the future. This is done across several scenarios where demographic rates are assumed to be (1) drawn across all years, (2) drawn from the last 5 years, and (3) drawn from the late 1980s, when survival and fecundity rates were relatively high. Note: these projections don't include parametric uncertainty for birth rates and death rates. 1000 iterations are run for each scenario.
 
 ```{r}
-rebuild = FALSE
+rebuild = TRUE
 if(rebuild==TRUE) {
   scenario = c("1976:2023","2019:2023","1985:1989")
   projections = project(whale_data = expanded, seed=123,n_years = 30,
