@@ -23,9 +23,8 @@ library(mgcv)
 library(rstanarm)
 library(viridis)
 library(ggridges)
-library(mixedup)
 data(orca)
-year.end = 2021
+year.end = 2024
 refit_models = FALSE
 report_start = year.end-5
 # format whale names just for consistency
@@ -280,7 +279,7 @@ whaleData$sexF1M2[which(whaleData$sexF1M2==0)] = sample(c(1,2), size=length(whic
 whaleData$region = ifelse(whaleData$pod %in% c("J1","K1","L1"), "SRKW", "NRKW")
 
 whaleData$alive[which(whaleData$region=="NRKW" & whaleData$time > 2010)] = NA
-survival_01 = gam(alive ~ s(age,by=as.factor(sexF1M2)) + s(year) + region, family = "binomial", data = whaleData[which(whaleData$includeSurv == 1 & whaleData$year <= 2010), ])
+survival_01 = gam(alive ~ s(age,by=as.factor(sexF1M2)) + s(year), family = "binomial", data = whaleData[which(whaleData$includeSurv == 1 & whaleData$year <= 2010), ])
 
 survival_02 = gam(alive ~ s(age,by=as.factor(sexF1M2)) + s(year) + region, family = "binomial", data = whaleData[which(whaleData$includeSurv == 1), ])
 
