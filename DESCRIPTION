@@ -16,7 +16,7 @@ Suggests: knitr,
 URL: https://noaa-nwfsc.github.io/srkw-status/
 BugReports: https://github.com/noaa-nwfsc/srkw-status/issues
 License: GPL (>=3)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
