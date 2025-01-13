@@ -1,8 +1,8 @@
 Package: kwdemog
 Type: Package
 Title: Package for processing and exploring killer whale demographic data
-Version: 1.0.3
-Date: 2023-12-15
+Version: 1.0.4
+Date: 2025-01-13
 Authors@R: c(
     person(c("Eric", "J."), "Ward", email = "eric.ward@noaa.gov", 
       role = c("aut", "cre")))
