@@ -1,8 +1,8 @@
-Package: kwdemog
+Package: srkwstatus
 Type: Package
 Title: Package for processing and exploring killer whale demographic data
-Version: 1.0.4
-Date: 2025-01-13
+Version: 1.0.5
+Date: 2026-01-29
 Authors@R: c(
     person(c("Eric", "J."), "Ward", email = "eric.ward@noaa.gov", 
       role = c("aut", "cre")))
@@ -16,7 +16,7 @@ Suggests: knitr,
 URL: https://noaa-nwfsc.github.io/srkw-status/
 BugReports: https://github.com/noaa-nwfsc/srkw-status/issues
 License: GPL (>=3)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
