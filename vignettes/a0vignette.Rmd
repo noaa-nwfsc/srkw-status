@@ -2,11 +2,13 @@
 title: "Examples of using data and functions"
 author: "Eric J. Ward"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Examples of using data and functions}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+output: 
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    number_sections: false
+    fig_caption: true
+pkgdown:
+  as_is: true
 ---
 
 
@@ -14,7 +16,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE,
   comment = "#>"
 )
-library(kwdemog)
+library(srkwstatus)
 library(dplyr)
 data(orca)
 year.end = as.numeric(substr(Sys.Date(),1,4))
@@ -47,7 +49,7 @@ But for modeling, it's more useful to work with an expanded version, where every
 
 ```{r}
 data(ages2stages)
-whaleData = kwdemog::expand(orca, ages2stages =ages2stages)
+whaleData = srkwstatus::expand(orca, ages2stages =ages2stages)
 ```
 
 Then we can do all kinds of filtering for various analyses -- e.g. 

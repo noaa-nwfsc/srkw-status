@@ -1,72 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/0_vignette.html</loc>
-  </url>
-  <url>
-    <loc>/articles/1_current_pop.html</loc>
-  </url>
-  <url>
-    <loc>/articles/a0vignette.html</loc>
-  </url>
-  <url>
-    <loc>/articles/a1currentpop.html</loc>
-  </url>
-  <url>
-    <loc>/articles/a2demogrates.html</loc>
-  </url>
-  <url>
-    <loc>/articles/a3srb.html</loc>
-  </url>
-  <url>
-    <loc>/articles/a4reprofemales.html</loc>
-  </url>
-  <url>
-    <loc>/articles/a5densitydependence.html</loc>
-  </url>
-  <url>
-    <loc>/articles/a6projections.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/vignette.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ages2stages.html</loc>
-  </url>
-  <url>
-    <loc>/reference/expand.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/orca.html</loc>
-  </url>
-  <url>
-    <loc>/reference/project.html</loc>
-  </url>
-  <url>
-    <loc>/reference/projections.html</loc>
-  </url>
-  <url>
-    <loc>/reference/writedata.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/0_vignette.html</loc></url>
+<url><loc>/articles/1_current_pop.html</loc></url>
+<url><loc>/articles/a0vignette.html</loc></url>
+<url><loc>/articles/a1currentpop.html</loc></url>
+<url><loc>/articles/a2demogrates.html</loc></url>
+<url><loc>/articles/a3srb.html</loc></url>
+<url><loc>/articles/a4reprofemales.html</loc></url>
+<url><loc>/articles/a5densitydependence.html</loc></url>
+<url><loc>/articles/a6projections.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/vignette.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/ages2stages.html</loc></url>
+<url><loc>/reference/expand.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/orca.html</loc></url>
+<url><loc>/reference/project.html</loc></url>
+<url><loc>/reference/projections.html</loc></url>
+<url><loc>/reference/writedata.html</loc></url>
 </urlset>
+

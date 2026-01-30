@@ -2,11 +2,13 @@
 title: "Current SRKW Population"
 author: "Eric J. Ward"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Current SRKW Population}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+output: 
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    number_sections: false
+    fig_caption: true
+pkgdown:
+  as_is: true
 ---
 
 
@@ -14,7 +16,7 @@ vignette: >
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
   comment = "#>"
 )
-library(kwdemog)
+library(srkwstatus)
 library(dplyr)
 data(orca)
 year.end = as.numeric(substr(Sys.Date(),1,4))

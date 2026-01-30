@@ -2,11 +2,13 @@
 title: "Sex ratio at birth"
 author: "Eric J. Ward"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Sex ratio at birth}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+output: 
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    number_sections: false
+    fig_caption: true
+pkgdown:
+  as_is: true
 ---
 
 
@@ -14,7 +16,7 @@ vignette: >
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
   comment = "#>"
 )
-library(kwdemog)
+library(srkwstatus)
 library(dplyr)
 library(mgcv)
 library(ggplot2)
@@ -80,8 +82,8 @@ sexr = dplyr::filter(orca, birth >= (year.end-3)) %>%
     theme_bw()
 ```
 
-To evaluate support for a trend, we fit Bayesian logistic regression models (GLMs with a binomial family and logit link function), to SRKW birth data over the period 1977-present. In recent years, since `r year.end-3`, there have been `r sexr$males` male births and `r sexr$females` female births. This analysis highlights that the probability of a positive trend is approximately `r ppos`\% (Fig. \ref{fig:srb}).
+To evaluate support for a trend, we fit Bayesian logistic regression models (GLMs with a binomial family and logit link function), to SRKW birth data over the period 1977-present. In recent years, since `r year.end-3`, there have been `r sexr$males` male births and `r sexr$females` female births. This analysis highlights that the probability of a positive trend is approximately `r ppos`\% (Fig. 1).
 
-```{r, fig.cap="Trends in sex ratio at births for Southern Resident killer whales. Shown are all births (with GLM best fit) and the posterior distribution of the coefficient for the year term (trend). Positive values of the coefficient would support an increasing trend through time. The red line on the top panel represents the 50:50 sex ratio, and red lines on the histogram represent the 95% CIs. \\label{fig:srb}"}
+```{r srb, fig.cap="Trends in sex ratio at births for Southern Resident killer whales. Shown are all births (with GLM best fit) and the posterior distribution of the coefficient for the year term (trend). Positive values of the coefficient would support an increasing trend through time. The red line on the top panel represents the 50:50 sex ratio, and red lines on the histogram represent the 95% CIs."}
 gridExtra::grid.arrange(g1, g2, ncol=1)
 ```

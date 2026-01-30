@@ -2,11 +2,13 @@
 title: "Changing demographic rates"
 author: "Eric J. Ward"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Changing demographic rates}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+output: 
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    number_sections: false
+    fig_caption: true
+pkgdown:
+  as_is: true
 ---
 
 
@@ -14,7 +16,7 @@ vignette: >
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
   comment = "#>"
 )
-library(kwdemog)
+library(srkwstatus)
 library(dplyr)
 library(mgcv)
 library(ggplot2)
@@ -76,9 +78,9 @@ newdat$hi = plogis(newdat$pred+1.96*newdat$pred_se)
 newdat = dplyr::select(newdat, -pred, -pred_se)
 ```
 
-Figure 1. Estimated survival rates for 20-year old males and females in the SRKW population. Ribbons represent 95% CIs. 
+The estimated survival rates are shown in Fig. 1.
 
-```{r}
+```{r fig1, fig.cap = "Estimated survival rates for 20-year old males and females in the SRKW population. Ribbons represent 95% CIs."}
 ggplot(newdat, aes(year,survival,col=age,fill=age)) + 
   geom_ribbon(aes(ymin=lo,ymax=hi),alpha=0.3,col=NA) + 
   geom_line() +
@@ -116,9 +118,9 @@ newdat_f $hi = plogis(newdat_f$pred+1.96*newdat_f$pred_se)
 newdat_f = dplyr::select(newdat_f, -pred, -pred_se)
 ```
 
+The estimated fecundity rates are shown in Fig. 2.
 
-Figure 2. Estimated fecundity rates for 20-year females in the SRKW population. Ribbons represent 95% CIs. 
-```{r}
+```{r fig2, fig.cap = "Estimated fecundity rates for 20-year females in the SRKW population. Ribbons represent 95% CIs. "}
 ggplot(newdat_f, aes(year,fecundity,col=age,fill=age)) + 
   geom_ribbon(aes(ymin=lo,ymax=hi),alpha=0.3,col=NA) + 
   geom_line() +
@@ -130,20 +132,17 @@ ggplot(newdat_f, aes(year,fecundity,col=age,fill=age)) +
   theme(strip.background =element_rect(fill="white"))
 ```
 
-Table 1. Estimated time-varying survival rates for 20-year old female and male killer whales from the SRKW population. The 'lo' and 'hi' values represent 95% confidence intervals.  
 
-```{r}
+```{r surv-table}
 newdat$survival = round(newdat$survival,3)
 newdat$lo = round(newdat$lo,3)
 newdat$hi = round(newdat$hi,3)
-knitr::kable(newdat,digits = 3)
+knitr::kable(newdat,digits = 3, caption = "Estimated time-varying survival rates for 20-year old female and male killer whales from the SRKW population.")
 ```
 
-Table 2. Estimated time-varying fecundity rates for 20-year old female killer whales from the SRKW population. The 'lo' and 'hi' values represent 95% confidence intervals.  
-
-```{r}
+```{r fec-table}
 newdat_f$fecundity = round(newdat_f$fecundity,3)
 newdat_f$lo = round(newdat_f$lo,3)
 newdat_f$hi = round(newdat_f$hi,3)
-knitr::kable(newdat_f,digits = 3)
+knitr::kable(newdat_f,digits = 3, caption = "Estimated time-varying fecundity rates for 20-year old female killer whales from the SRKW population. The 'lo' and 'hi' values represent 95% confidence intervals")
 ```

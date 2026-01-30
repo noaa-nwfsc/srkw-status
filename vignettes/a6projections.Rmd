@@ -2,11 +2,13 @@
 title: "Future population projections"
 author: "Eric J. Ward"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Future population projections}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+output: 
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    number_sections: false
+    fig_caption: true
+pkgdown:
+  as_is: true
 ---
 
 
@@ -14,7 +16,7 @@ vignette: >
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
   comment = "#>"
 )
-library(kwdemog)
+library(srkwstatus)
 library(dplyr)
 library(ggplot2)
 
@@ -69,9 +71,8 @@ if(rebuild==TRUE) {
 }
 ```
 
-Figure 1. Distribution of projected SRKW population sizes, under several scenarios. Solid lines represent the mean across 1000 iterations, and ribbons represent the 95% intervals.  
 
-```{r}
+```{r, fig.cap="Distribution of projected SRKW population sizes, under several scenarios. Solid lines represent the mean across 1000 iterations, and ribbons represent the 95% intervals."}
 data(projections)
 ggplot(projections, aes(year, mean,col=Scenario,fill=Scenario)) + 
   geom_ribbon(aes(ymin=low,ymax=hi),alpha=0.2,col = NA) + 

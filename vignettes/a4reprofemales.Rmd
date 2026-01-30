@@ -2,11 +2,13 @@
 title: "Time series of reproductive females"
 author: "Eric J. Ward"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Time series of reproductive females}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+output: 
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    number_sections: false
+    fig_caption: true
+pkgdown:
+  as_is: true
 ---
 
 
@@ -14,7 +16,7 @@ vignette: >
 knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE,
   comment = "#>"
 )
-library(kwdemog)
+library(srkwstatus)
 library(dplyr)
 library(mgcv)
 library(ggplot2)
@@ -50,9 +52,9 @@ whaleData = expanded
 
 ### Reproductive females
 
-The number of reproductive aged females was at its lowest point in the late 1970s, in part because of the prior harvesting that occurred into the early 1970s (Fig. \ref{fig:ts-repro-females}). Though the overall number of reproductive females has been fluctuating between 25-35 for most of the last 40 years, there have been contrasting changes by pod, with declines in L pod females and increases in J pod (Fig. \ref{fig:ts-repro-females}). At the start of the survey in 1976, the distribution of females was skewed toward younger ages with few older, post-reproductive females. The distribution in recent years is more uniform across female ages (in other words, more females in their 30s, Fig. \ref{fig:plot-repro-females}). 
+The number of reproductive aged females was at its lowest point in the late 1970s, in part because of the prior harvesting that occurred into the early 1970s. Though the overall number of reproductive females has been fluctuating between 25-35 for most of the last 40 years, there have been contrasting changes by pod, with declines in L pod females and increases in J pod. At the start of the survey in 1976, the distribution of females was skewed toward younger ages with few older, post-reproductive females. The distribution in recent years is more uniform across female ages (in other words, more females in their 30s. 
 
-```{r reprofemales, fig.cap="Distribution of ages of reproductive age females (10-42, inclusive) for Southern Residents by year since 1976. \\label{fig:plot-repro-females}"}
+```{r reprofemales, fig.cap="Distribution of ages of reproductive age females (10-42, inclusive) for Southern Residents by year since 1976."}
 # summarize repro females by year
 repro = dplyr::filter(whaleData, pod %in% c("J1","K1","L1"), alive == 1, sexF1M2==1, age >=10, age<=42)
 repro$pod[which(repro$pod=="J1")]="J"
@@ -73,7 +75,7 @@ ggplot(repro, aes(x = `age`, y = `year`, fill = ..x..)) +
 
 ```
 
-```{r reprots, fig.cap="Time series of reproductive age females (10-42, inclusive) for Southern Residents by year since 1976. \\label{fig:ts-repro-females}"}
+```{r reprots, fig.cap="Time series of reproductive age females (10-42, inclusive) for Southern Residents by year since 1976."}
 g1 = group_by(repro, year) %>% summarize(m = length(unique(animal)),SRKW="Total") %>% 
   ggplot(aes(year, m, group=SRKW,color=SRKW)) + geom_line(col="black") + geom_point() + 
   xlab("Year") + ylab("Reproductive aged females") + 
@@ -85,7 +87,7 @@ g1
 ```
 
 
-```{r reprots-pod, fig.cap="Time series of reproductive age females (10-42, inclusive) for Southern Residents by pod and year since 1976. \\label{fig:ts-repro-females-pod}"}
+```{r reprots-pod, fig.cap="Time series of reproductive age females (10-42, inclusive) for Southern Residents by pod and year since 1976."}
 g2 = group_by(repro, year, pod) %>% summarize(m = length(unique(animal))) %>% 
   ggplot(aes(year, m, group=pod, color=pod)) + geom_line() + geom_point() + 
   xlab("Year") + ylab("Reproductive aged females") + 
