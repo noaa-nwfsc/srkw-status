@@ -7,5 +7,4 @@
 .Rbuildignore
 project.Rproj
 LICENSE.md
-/docs/
 inst/extdata/status_update_files/.DS_Store
